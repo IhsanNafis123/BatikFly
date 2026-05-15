@@ -141,19 +141,22 @@ class HomeView extends GetView<HomeController> {
                         ),
 
                         const SizedBox(width: 10),
-
-                        const CircleAvatar(
-                          backgroundColor: Colors.amber,
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.black,
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.PROFILE);
+                          },
+                          child: const CircleAvatar(
+                            backgroundColor: Colors.amber,
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 30),
 
                 // ================= BANNER =================
@@ -260,32 +263,41 @@ class HomeView extends GetView<HomeController> {
                 const SizedBox(height: 15),
 
                 Row(
-                  children: [
+  children: [
 
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.toNamed(Routes.DESAIN);
-                    },
-                    child: featureCard(
-                      Icons.brush,
-                      "Desain Baru",
-                      "Pensil & Kain",
-                    ),
-                  ),
-                ),
+    // FITTING 3D
+    Expanded(
+      child: GestureDetector(
+        onTap: () {
+          Get.toNamed(Routes.FITTING);
+        },
+        child: featureCard(
+          Icons.camera_alt,
+          "Fitting 3D",
+          "Kamera AI",
+        ),
+      ),
+    ),
 
-                    const SizedBox(width: 15),
+    const SizedBox(width: 15),
 
-                    Expanded(
-                      child: featureCard(
-                        Icons.camera_alt,
-                        "Fitting 3D",
-                        "Kamera AI",
-                      ),
-                    ),
-                  ],
-                ),
+    // GALERI
+    Expanded(
+      child: GestureDetector(
+        onTap: () {
+          Get.toNamed(Routes.GALLERY);
+        },
+        child: featureCard(
+          Icons.photo_library,
+          "Galeri",
+          "Galeri Batik",
+        ),
+      ),
+    ),
+  ],
+),
+
+const SizedBox(height: 30),
 
                 const SizedBox(height: 30),
 
@@ -347,6 +359,7 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
     );
+
   }
 
   // ================= FEATURE CARD =================

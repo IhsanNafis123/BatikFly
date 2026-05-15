@@ -10,6 +10,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/navbar/bindings/navbar_binding.dart';
+import '../modules/navbar/views/navbar_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/register/bindings/register_binding.dart';
@@ -58,6 +60,10 @@ class AppPages {
       page: () => const FittingView(),
       binding: FittingBinding(),
     ),
-    
+    GetPage(
+      name: _Paths.NAVBAR,
+      page: () => const NavbarView(),
+      binding: NavbarBinding(),
+    ),
   ];
 }

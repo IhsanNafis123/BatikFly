@@ -11,6 +11,7 @@ abstract class Routes {
   static const GALLERY = _Paths.GALLERY;
   static const FITTING = _Paths.FITTING;
   static const GALERI = _Paths.GALERI;
+  static const NAVBAR = _Paths.NAVBAR;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const GALLERY = '/gallery';
   static const FITTING = '/fitting';
   static const GALERI = '/galeri';
+  static const NAVBAR = '/navbar';
 }

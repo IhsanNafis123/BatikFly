@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class FittingController extends GetxController {
   var isLoading = false.obs;
   var generatedModel3DUrl = "".obs;
+  var selectedIndex = 2.obs;
 
   // State untuk Input User
   var selectedSize = "M".obs;       // Default M

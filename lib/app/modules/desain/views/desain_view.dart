@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../navbar/controllers/navbar_controller.dart';
 import '../../navbar/views/navbar_view.dart';
 
 class DesainView extends StatelessWidget {
@@ -10,24 +11,34 @@ class DesainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double width = MediaQuery.of(context).size.width;
+    final navbarController =
+        Get.find<NavbarController>();
+
+    navbarController.changePage(1);
+
+    double width =
+        MediaQuery.of(context).size.width;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness:
+            Brightness.light,
       ),
 
       child: Scaffold(
-        backgroundColor: const Color(0xFF0D0F1A),
+        backgroundColor:
+            const Color(0xFF0D0F1A),
 
         // ================= NAVBAR =================
 
-        bottomNavigationBar: const NavbarView(),
+        bottomNavigationBar:
+            const NavbarView(),
 
         body: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding:
+                const EdgeInsets.all(16),
 
             child: Column(
               crossAxisAlignment:
@@ -38,37 +49,25 @@ class DesainView extends StatelessWidget {
                 // ================= HEADER =================
 
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
-
                   children: [
 
-                    Row(
-                      children: [
-
-                        Image.asset(
-                          "assets/logo.jpeg",
-                          width: 35,
-                        ),
-
-                        const SizedBox(width: 10),
-
-                        const Text(
-                          "BatikFly",
-
-                          style: TextStyle(
-                            color: Colors.amber,
-                            fontSize: 22,
-                            fontWeight:
-                                FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                    Image.asset(
+                      "assets/logo.jpeg",
+                      width: 35,
                     ),
 
-                    const Icon(
-                      Icons.settings,
-                      color: Colors.amber,
+                    const SizedBox(width: 10),
+
+                    const Text(
+                      "BatikFly",
+
+                      style: TextStyle(
+                        color:
+                            Colors.amber,
+                        fontSize: 22,
+                        fontWeight:
+                            FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -83,7 +82,8 @@ class DesainView extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.amber,
                     fontSize: 34,
-                    fontWeight: FontWeight.bold,
+                    fontWeight:
+                        FontWeight.bold,
                   ),
                 ),
 
@@ -104,18 +104,25 @@ class DesainView extends StatelessWidget {
 
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(18),
+                  padding:
+                      const EdgeInsets.all(18),
 
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1A1F3A),
+                    color:
+                        const Color(
+                      0xFF1A1F3A,
+                    ),
 
                     borderRadius:
-                        BorderRadius.circular(25),
+                        BorderRadius.circular(
+                      25,
+                    ),
                   ),
 
                   child: Column(
                     crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        CrossAxisAlignment
+                            .start,
 
                     children: [
 
@@ -128,9 +135,12 @@ class DesainView extends StatelessWidget {
                           vertical: 5,
                         ),
 
-                        decoration: BoxDecoration(
+                        decoration:
+                            BoxDecoration(
                           color:
-                              const Color(0xFF0D0F1A),
+                              const Color(
+                            0xFF0D0F1A,
+                          ),
 
                           borderRadius:
                               BorderRadius.circular(
@@ -138,36 +148,47 @@ class DesainView extends StatelessWidget {
                           ),
                         ),
 
-                        child: const TextField(
+                        child:
+                            const TextField(
                           style: TextStyle(
-                            color: Colors.white,
+                            color:
+                                Colors.white,
                           ),
 
                           maxLines: 4,
 
                           decoration:
                               InputDecoration(
-                            border: InputBorder.none,
+                            border:
+                                InputBorder
+                                    .none,
 
                             hintText:
                                 "e.g. Modern Mega Mendung in blue and gold",
 
-                            hintStyle: TextStyle(
-                              color: Colors.white38,
+                            hintStyle:
+                                TextStyle(
+                              color:
+                                  Colors.white38,
                             ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 20),
+                      const SizedBox(
+                        height: 20,
+                      ),
 
                       // ================= BUTTON GENERATE =================
 
                       SizedBox(
-                        width: double.infinity,
+                        width:
+                            double.infinity,
                         height: 55,
 
-                        child: ElevatedButton.icon(
+                        child:
+                            ElevatedButton
+                                .icon(
                           style:
                               ElevatedButton.styleFrom(
                             backgroundColor:
@@ -179,8 +200,7 @@ class DesainView extends StatelessWidget {
                             shape:
                                 RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius
-                                      .circular(
+                                  BorderRadius.circular(
                                 18,
                               ),
                             ),
@@ -196,18 +216,23 @@ class DesainView extends StatelessWidget {
                                   Colors.green,
 
                               colorText:
-                                  Colors.white,
+                                  Colors
+                                      .white,
                             );
                           },
 
-                          icon: const Icon(
-                            Icons.auto_awesome,
+                          icon:
+                              const Icon(
+                            Icons
+                                .auto_awesome,
                           ),
 
-                          label: const Text(
+                          label:
+                              const Text(
                             "GENERATE MOTIF",
 
-                            style: TextStyle(
+                            style:
+                                TextStyle(
                               fontWeight:
                                   FontWeight.bold,
                             ),
@@ -224,7 +249,8 @@ class DesainView extends StatelessWidget {
 
                 Row(
                   mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                      MainAxisAlignment
+                          .spaceBetween,
 
                   children: [
 
@@ -232,7 +258,8 @@ class DesainView extends StatelessWidget {
                       "GENERATED\nMASTERPIECE",
 
                       style: TextStyle(
-                        color: Colors.white,
+                        color:
+                            Colors.white,
                         fontSize: 28,
                         fontWeight:
                             FontWeight.bold,
@@ -247,8 +274,10 @@ class DesainView extends StatelessWidget {
                         vertical: 8,
                       ),
 
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
+                      decoration:
+                          BoxDecoration(
+                        color:
+                            Colors.amber,
 
                         borderRadius:
                             BorderRadius.circular(
@@ -259,10 +288,12 @@ class DesainView extends StatelessWidget {
                       child: const Text(
                         "TRADITIONAL\nAURIC",
 
-                        textAlign: TextAlign.center,
+                        textAlign:
+                            TextAlign.center,
 
                         style: TextStyle(
-                          color: Colors.black,
+                          color:
+                              Colors.black,
                           fontSize: 10,
                           fontWeight:
                               FontWeight.bold,
@@ -281,15 +312,22 @@ class DesainView extends StatelessWidget {
                   height: width * 0.8,
 
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1A1F3A),
+                    color:
+                        const Color(
+                      0xFF1A1F3A,
+                    ),
 
                     borderRadius:
-                        BorderRadius.circular(30),
+                        BorderRadius.circular(
+                      30,
+                    ),
                   ),
 
                   child: ClipRRect(
                     borderRadius:
-                        BorderRadius.circular(30),
+                        BorderRadius.circular(
+                      30,
+                    ),
 
                     child: Image.asset(
                       "assets/batik_ai.png",
@@ -306,11 +344,15 @@ class DesainView extends StatelessWidget {
                   children: [
 
                     Expanded(
-                      child: OutlinedButton.icon(
+                      child:
+                          OutlinedButton
+                              .icon(
                         style:
                             OutlinedButton.styleFrom(
-                          side: const BorderSide(
-                            color: Colors.amber,
+                          side:
+                              const BorderSide(
+                            color:
+                                Colors.amber,
                           ),
 
                           padding:
@@ -321,8 +363,7 @@ class DesainView extends StatelessWidget {
                           shape:
                               RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius
-                                    .circular(
+                                BorderRadius.circular(
                               16,
                             ),
                           ),
@@ -330,16 +371,21 @@ class DesainView extends StatelessWidget {
 
                         onPressed: () {},
 
-                        icon: const Icon(
+                        icon:
+                            const Icon(
                           Icons.refresh,
-                          color: Colors.amber,
+                          color:
+                              Colors.amber,
                         ),
 
-                        label: const Text(
+                        label:
+                            const Text(
                           "REGENERATE",
 
-                          style: TextStyle(
-                            color: Colors.amber,
+                          style:
+                              TextStyle(
+                            color:
+                                Colors.amber,
                           ),
                         ),
                       ),
@@ -348,7 +394,9 @@ class DesainView extends StatelessWidget {
                     const SizedBox(width: 15),
 
                     Expanded(
-                      child: ElevatedButton.icon(
+                      child:
+                          ElevatedButton
+                              .icon(
                         style:
                             ElevatedButton.styleFrom(
                           backgroundColor:
@@ -365,8 +413,7 @@ class DesainView extends StatelessWidget {
                           shape:
                               RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius
-                                    .circular(
+                                BorderRadius.circular(
                               16,
                             ),
                           ),
@@ -382,21 +429,25 @@ class DesainView extends StatelessWidget {
                                 Colors.green,
 
                             colorText:
-                                Colors.white,
+                                Colors
+                                    .white,
                           );
                         },
 
-                        icon: const Icon(
+                        icon:
+                            const Icon(
                           Icons.bookmark,
                         ),
 
-                        label: const Text(
+                        label:
+                            const Text(
                           "SAVE TO\nGALLERY",
 
                           textAlign:
                               TextAlign.center,
 
-                          style: TextStyle(
+                          style:
+                              TextStyle(
                             fontWeight:
                                 FontWeight.bold,
                           ),
@@ -445,13 +496,17 @@ class DesainView extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
+      padding:
+          const EdgeInsets.all(18),
 
       decoration: BoxDecoration(
-        color: const Color(0xFF1A1F3A),
+        color:
+            const Color(0xFF1A1F3A),
 
         borderRadius:
-            BorderRadius.circular(25),
+            BorderRadius.circular(
+          25,
+        ),
       ),
 
       child: Column(
@@ -464,7 +519,8 @@ class DesainView extends StatelessWidget {
             children: [
 
               CircleAvatar(
-                backgroundColor: Colors.amber,
+                backgroundColor:
+                    Colors.amber,
 
                 child: Icon(
                   icon,
@@ -480,7 +536,8 @@ class DesainView extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.amber,
                   fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  fontWeight:
+                      FontWeight.bold,
                 ),
               ),
             ],

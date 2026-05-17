@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
-
+import '../../navbar/views/navbar_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -17,62 +17,9 @@ class HomeView extends GetView<HomeController> {
       ),
       child: Scaffold(
         backgroundColor: const Color(0xFF0D0F1A),
+        bottomNavigationBar: const NavbarView(),
 
         // ================= BOTTOM NAVIGATION =================
-
-        bottomNavigationBar: Obx(
-          () => BottomNavigationBar(
-            currentIndex: controller.selectedIndex.value,
-            onTap: (index) {
-  print("Klik Index: $index"); // Cek di Debug Console saat klik
-  controller.selectedIndex.value = index;
-
-  if (index == 0) {
-    Get.offAllNamed(Routes.HOME);
-  } else if (index == 1) {
-    Get.offAllNamed(Routes.DESAIN);
-  } else if (index == 2) {
-    print("Mencoba ke Fitting..."); // Debug log
-    Get.offAllNamed(Routes.FITTING);
-  } else if (index == 3) {
-    Get.offAllNamed(Routes.GALLERY);
-  } else if (index == 4) {
-    Get.offAllNamed(Routes.PROFILE);
-  }
-},
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: const Color(0xFF15192F),
-            selectedItemColor: Colors.amber,
-            unselectedItemColor: Colors.white70,
-            items: const [
-
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Beranda',
-              ),
-
-              BottomNavigationBarItem(
-                icon: Icon(Icons.brush),
-                label: 'Desain',
-              ),
-
-              BottomNavigationBarItem(
-                icon: Icon(Icons.checkroom),
-                label: 'Fitting 3D',
-              ),
-
-              BottomNavigationBarItem(
-                icon: Icon(Icons.photo_library),
-                label: 'Galeri',
-              ),
-
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profil',
-              ),
-            ],
-          ),
-        ),
 
         body: SafeArea(
           child: SingleChildScrollView(
@@ -288,9 +235,9 @@ class HomeView extends GetView<HomeController> {
           Get.toNamed(Routes.GALLERY);
         },
         child: featureCard(
-          Icons.photo_library,
-          "Galeri",
-          "Galeri Batik",
+          Icons.brush,
+          "Desain",
+          "Motif AI",
         ),
       ),
     ),

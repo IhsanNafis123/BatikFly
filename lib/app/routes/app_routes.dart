@@ -12,6 +12,7 @@ abstract class Routes {
   static const FITTING = _Paths.FITTING;
   static const GALERI = _Paths.GALERI;
   static const NAVBAR = _Paths.NAVBAR;
+  static const SETTING = _Paths.SETTING;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const FITTING = '/fitting';
   static const GALERI = '/galeri';
   static const NAVBAR = '/navbar';
+  static const SETTING = '/setting';
 }

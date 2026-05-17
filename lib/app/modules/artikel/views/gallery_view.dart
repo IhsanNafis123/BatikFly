@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/gallery_controller.dart';
 import 'gallery_detail_view.dart'; // Import halaman detail
+import '../../navbar/views/navbar_view.dart';
 
 class GalleryView extends GetView<GalleryController> {
   const GalleryView({super.key});
@@ -114,45 +115,7 @@ class GalleryView extends GetView<GalleryController> {
       ),
       
       // ================= BOTTOM NAVBAR =================
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          currentIndex: controller.selectedIndex.value,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color(0xFF15192F),
-          selectedItemColor: Colors.amber,
-          unselectedItemColor: Colors.white70,
-          onTap: (index) {
-            
-            // Cegah reload jika menekan tab halaman saat ini (Artikel / Gallery)
-            if (index == 3) return;
-
-            controller.selectedIndex.value = index;
-
-            // Navigasi menggunakan switch-case agar lebih rapi
-            switch (index) {
-              case 0:
-                Get.offAllNamed(Routes.HOME);
-                break;
-              case 1:
-                Get.offAllNamed(Routes.DESAIN);
-                break;
-              case 2:
-                Get.offAllNamed(Routes.FITTING);
-                break;
-              case 4:
-                Get.offAllNamed(Routes.PROFILE);
-                break;
-            }
-          },
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-            BottomNavigationBarItem(icon: Icon(Icons.brush), label: 'Desain'),
-            BottomNavigationBarItem(icon: Icon(Icons.checkroom), label: 'Fitting'),
-            BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Artikel'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
-          ],
-        ),
-      ),
+      bottomNavigationBar: const NavbarView(),
     );
   }
 }

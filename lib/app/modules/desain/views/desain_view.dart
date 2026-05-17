@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '../../../routes/app_pages.dart';
+
+import '../../navbar/views/navbar_view.dart';
 
 class DesainView extends StatelessWidget {
   const DesainView({super.key});
@@ -20,59 +21,9 @@ class DesainView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(0xFF0D0F1A),
 
-        // ================= BOTTOM NAVBAR =================
+        // ================= NAVBAR =================
 
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 1, // Tetap 1 karena ini adalah halaman Desain
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color(0xFF15192F),
-          selectedItemColor: Colors.amber,
-          unselectedItemColor: Colors.white70,
-          onTap: (index) {
-          
-          // Cegah reload jika menekan tab halaman saat ini (Desain)
-          if (index == 1) return;
-
-          // Navigasi berdasarkan index tab yang ditekan, 
-          // pastikan namanya sesuai dengan Routes di app_routes.dart
-          switch (index) {
-            case 0:
-              Get.offAllNamed(Routes.HOME);
-              break;
-            case 2:
-              Get.offAllNamed(Routes.FITTING); // Menggunakan FITTING
-              break;
-            case 3:
-              Get.offAllNamed(Routes.GALLERY); // Menggunakan GALLERY
-              break;
-            case 4:
-              Get.offAllNamed(Routes.PROFILE); // Menggunakan PROFILE
-              break;
-          }
-        },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Beranda',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.brush),
-              label: 'Desain',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.checkroom),
-              label: 'Fitting 3D',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.photo_library),
-              label: 'Galeri',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profil',
-            ),
-          ],
-        ),
+        bottomNavigationBar: const NavbarView(),
 
         body: SafeArea(
           child: SingleChildScrollView(
@@ -81,6 +32,7 @@ class DesainView extends StatelessWidget {
             child: Column(
               crossAxisAlignment:
                   CrossAxisAlignment.start,
+
               children: [
 
                 // ================= HEADER =================
@@ -88,6 +40,7 @@ class DesainView extends StatelessWidget {
                 Row(
                   mainAxisAlignment:
                       MainAxisAlignment.spaceBetween,
+
                   children: [
 
                     Row(
@@ -102,10 +55,12 @@ class DesainView extends StatelessWidget {
 
                         const Text(
                           "BatikFly",
+
                           style: TextStyle(
                             color: Colors.amber,
                             fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                            fontWeight:
+                                FontWeight.bold,
                           ),
                         ),
                       ],
@@ -124,6 +79,7 @@ class DesainView extends StatelessWidget {
 
                 const Text(
                   "Weave Your Vision",
+
                   style: TextStyle(
                     color: Colors.amber,
                     fontSize: 34,
@@ -135,6 +91,7 @@ class DesainView extends StatelessWidget {
 
                 const Text(
                   "Describe the patterns of your heritage,\nand let AI reveal the thread.",
+
                   style: TextStyle(
                     color: Colors.white54,
                     height: 1.5,
@@ -151,6 +108,7 @@ class DesainView extends StatelessWidget {
 
                   decoration: BoxDecoration(
                     color: const Color(0xFF1A1F3A),
+
                     borderRadius:
                         BorderRadius.circular(25),
                   ),
@@ -158,9 +116,10 @@ class DesainView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment:
                         CrossAxisAlignment.start,
+
                     children: [
 
-                      // TEXTFIELD
+                      // ================= TEXTFIELD =================
 
                       Container(
                         padding:
@@ -172,21 +131,22 @@ class DesainView extends StatelessWidget {
                         decoration: BoxDecoration(
                           color:
                               const Color(0xFF0D0F1A),
+
                           borderRadius:
                               BorderRadius.circular(
                             18,
                           ),
                         ),
 
-                        child: TextField(
-                          style: const TextStyle(
+                        child: const TextField(
+                          style: TextStyle(
                             color: Colors.white,
                           ),
 
                           maxLines: 4,
 
                           decoration:
-                              const InputDecoration(
+                              InputDecoration(
                             border: InputBorder.none,
 
                             hintText:
@@ -201,7 +161,7 @@ class DesainView extends StatelessWidget {
 
                       const SizedBox(height: 20),
 
-                      // GENERATE BUTTON
+                      // ================= BUTTON GENERATE =================
 
                       SizedBox(
                         width: double.infinity,
@@ -212,8 +172,10 @@ class DesainView extends StatelessWidget {
                               ElevatedButton.styleFrom(
                             backgroundColor:
                                 Colors.amber,
+
                             foregroundColor:
                                 Colors.black,
+
                             shape:
                                 RoundedRectangleBorder(
                               borderRadius:
@@ -229,8 +191,10 @@ class DesainView extends StatelessWidget {
                             Get.snackbar(
                               "Success",
                               "Motif berhasil dibuat",
+
                               backgroundColor:
                                   Colors.green,
+
                               colorText:
                                   Colors.white,
                             );
@@ -242,6 +206,7 @@ class DesainView extends StatelessWidget {
 
                           label: const Text(
                             "GENERATE MOTIF",
+
                             style: TextStyle(
                               fontWeight:
                                   FontWeight.bold,
@@ -255,15 +220,17 @@ class DesainView extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                // ================= GENERATED =================
+                // ================= GENERATED TITLE =================
 
                 Row(
                   mainAxisAlignment:
                       MainAxisAlignment.spaceBetween,
+
                   children: [
 
                     const Text(
                       "GENERATED\nMASTERPIECE",
+
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 28,
@@ -282,6 +249,7 @@ class DesainView extends StatelessWidget {
 
                       decoration: BoxDecoration(
                         color: Colors.amber,
+
                         borderRadius:
                             BorderRadius.circular(
                           20,
@@ -290,7 +258,9 @@ class DesainView extends StatelessWidget {
 
                       child: const Text(
                         "TRADITIONAL\nAURIC",
+
                         textAlign: TextAlign.center,
+
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 10,
@@ -312,6 +282,7 @@ class DesainView extends StatelessWidget {
 
                   decoration: BoxDecoration(
                     color: const Color(0xFF1A1F3A),
+
                     borderRadius:
                         BorderRadius.circular(30),
                   ),
@@ -366,6 +337,7 @@ class DesainView extends StatelessWidget {
 
                         label: const Text(
                           "REGENERATE",
+
                           style: TextStyle(
                             color: Colors.amber,
                           ),
@@ -381,6 +353,7 @@ class DesainView extends StatelessWidget {
                             ElevatedButton.styleFrom(
                           backgroundColor:
                               Colors.amber,
+
                           foregroundColor:
                               Colors.black,
 
@@ -404,8 +377,10 @@ class DesainView extends StatelessWidget {
                           Get.snackbar(
                             "Saved",
                             "Motif disimpan ke galeri",
+
                             backgroundColor:
                                 Colors.green,
+
                             colorText:
                                 Colors.white,
                           );
@@ -417,8 +392,10 @@ class DesainView extends StatelessWidget {
 
                         label: const Text(
                           "SAVE TO\nGALLERY",
+
                           textAlign:
                               TextAlign.center,
+
                           style: TextStyle(
                             fontWeight:
                                 FontWeight.bold,
@@ -436,6 +413,7 @@ class DesainView extends StatelessWidget {
                 infoCard(
                   Icons.menu_book,
                   "Philosophy",
+
                   "The Mega Mendung motif represents the clouds of the heavy sky, symbolizing patience, calm, and the ability to maintain composure during tumultuous times.",
                 ),
 
@@ -444,6 +422,7 @@ class DesainView extends StatelessWidget {
                 infoCard(
                   Icons.graphic_eq,
                   "AI Weave Density",
+
                   "Processing with 95% relative weave layer simulation for maximum cultural authenticity.",
                 ),
 
@@ -456,42 +435,6 @@ class DesainView extends StatelessWidget {
     );
   }
 
-  // ================= NAV ITEM =================
-
-  Widget navItem(
-    IconData icon,
-    String title,
-    bool active,
-  ) {
-    return Column(
-      mainAxisAlignment:
-          MainAxisAlignment.center,
-      children: [
-
-        Icon(
-          icon,
-          color:
-              active
-                  ? Colors.amber
-                  : Colors.white54,
-        ),
-
-        const SizedBox(height: 5),
-
-        Text(
-          title,
-          style: TextStyle(
-            color:
-                active
-                    ? Colors.amber
-                    : Colors.white54,
-            fontSize: 12,
-          ),
-        ),
-      ],
-    );
-  }
-
   // ================= INFO CARD =================
 
   Widget infoCard(
@@ -499,12 +442,14 @@ class DesainView extends StatelessWidget {
     String title,
     String description,
   ) {
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
 
       decoration: BoxDecoration(
         color: const Color(0xFF1A1F3A),
+
         borderRadius:
             BorderRadius.circular(25),
       ),
@@ -512,6 +457,7 @@ class DesainView extends StatelessWidget {
       child: Column(
         crossAxisAlignment:
             CrossAxisAlignment.start,
+
         children: [
 
           Row(
@@ -519,6 +465,7 @@ class DesainView extends StatelessWidget {
 
               CircleAvatar(
                 backgroundColor: Colors.amber,
+
                 child: Icon(
                   icon,
                   color: Colors.black,
@@ -529,6 +476,7 @@ class DesainView extends StatelessWidget {
 
               Text(
                 title,
+
                 style: const TextStyle(
                   color: Colors.amber,
                   fontSize: 18,
@@ -542,6 +490,7 @@ class DesainView extends StatelessWidget {
 
           Text(
             description,
+
             style: const TextStyle(
               color: Colors.white70,
               height: 1.6,

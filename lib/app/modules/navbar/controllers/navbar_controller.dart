@@ -1,23 +1,32 @@
 import 'package:get/get.dart';
 
 class NavbarController extends GetxController {
-  //TODO: Implement NavbarController
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  var currentIndex = 0.obs;
+
+  void changeIndex(int index) {
+    currentIndex.value = index;
+
+    switch (index) {
+      case 0:
+        Get.offAllNamed('/home');
+        break;
+
+      case 1:
+        Get.offAllNamed('/desain');
+        break;
+
+      case 2:
+        Get.offAllNamed('/fitting');
+        break;
+
+      case 3:
+        Get.offAllNamed('/artikel');
+        break;
+
+      case 4:
+        Get.offAllNamed('/profil');
+        break;
+    }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

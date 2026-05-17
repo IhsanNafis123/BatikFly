@@ -438,11 +438,13 @@ const SizedBox(height: 30),
               borderRadius:
                   BorderRadius.circular(25),
             ),
-            child: const Center(
-              child: Icon(
-                Icons.image,
-                color: Colors.amber,
-                size: 60,
+           child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Image.asset(
+                "assets/batik1.jpg",
+                width: double.infinity,
+                height: 140,
+                fit: BoxFit.cover,
               ),
             ),
           ),

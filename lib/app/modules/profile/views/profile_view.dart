@@ -2,87 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../routes/app_pages.dart';
 import '../controllers/profile_controller.dart';
+import '../../navbar/views/navbar_view.dart';
 
-class ProfileView
-    extends GetView<ProfileController> {
-
+class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness:
-            Brightness.light,
+        statusBarIconBrightness: Brightness.light,
       ),
 
       child: Scaffold(
-        backgroundColor:
-            const Color(0xFF0D0F1A),
+        backgroundColor: const Color(0xFF0D0F1A),
 
-        
+        // ================= NAVBAR =================
 
-       // ================= NAVBAR =================
-
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 4, // Indeks 4 untuk halaman Profil
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color(0xFF15192F),
-          selectedItemColor: Colors.amber,
-          unselectedItemColor: Colors.white70,
-          onTap: (index) {
-            
-            // Cegah reload jika menekan tab halaman saat ini (Profil)
-            if (index == 4) return;
-
-            // Navigasi menggunakan switch-case agar rapi dan lengkap
-            switch (index) {
-              case 0:
-                Get.offAllNamed(Routes.HOME);
-                break;
-              case 1:
-                Get.offAllNamed(Routes.DESAIN);
-                break;
-              case 2:
-                Get.offAllNamed(Routes.FITTING);
-                break;
-              case 3:
-                Get.offAllNamed(Routes.GALLERY);
-                break;
-            }
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Beranda',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.brush),
-              label: 'Desain',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.checkroom),
-              label: 'Fitting', // Disesuaikan agar seragam
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu_book), // Disesuaikan dengan icon di GalleryView
-              label: 'Artikel', // Disesuaikan agar seragam
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profil',
-            ),
-          ],
-        ),
+        bottomNavigationBar: const NavbarView(),
 
         body: SafeArea(
           child: SingleChildScrollView(
-            padding:
-                const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
 
             child: Column(
               children: [
@@ -97,71 +40,51 @@ class ProfileView
                       width: 40,
                     ),
 
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
 
                     const Text(
                       "BatikFly",
                       style: TextStyle(
-                        color:
-                            Colors.amber,
-
+                        color: Colors.amber,
                         fontSize: 28,
-
-                        fontWeight:
-                            FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
 
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
 
                 // ================= PROFILE IMAGE =================
 
                 const CircleAvatar(
                   radius: 55,
-
-                  backgroundColor:
-                      Colors.amber,
+                  backgroundColor: Colors.amber,
 
                   child: Icon(
                     Icons.person,
-
                     size: 60,
-
                     color: Colors.black,
                   ),
                 ),
 
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
 
                 // ================= USERNAME =================
 
                 Obx(
                   () => Text(
-                    controller
-                        .username.value,
+                    controller.username.value,
 
                     style: const TextStyle(
                       color: Colors.white,
-
                       fontSize: 28,
-
-                      fontWeight:
-                          FontWeight.bold,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
 
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
 
                 // ================= EMAIL =================
 
@@ -170,59 +93,43 @@ class ProfileView
                     controller.email.value,
 
                     style: const TextStyle(
-                      color:
-                          Colors.white70,
-
+                      color: Colors.white70,
                       fontSize: 16,
                     ),
                   ),
                 ),
 
-                const SizedBox(
-                  height: 35,
-                ),
+                const SizedBox(height: 35),
 
                 // ================= CARD =================
 
                 Obx(
                   () => profileCard(
                     Icons.auto_awesome,
-
                     "Total Desain",
-
                     "${controller.totalDesign.value} Motif Batik",
                   ),
                 ),
 
-                const SizedBox(
-                  height: 18,
-                ),
+                const SizedBox(height: 18),
 
                 Obx(
                   () => profileCard(
                     Icons.bookmark,
-
                     "Galeri Tersimpan",
-
                     "${controller.totalGallery.value} Desain Favorit",
                   ),
                 ),
 
-                const SizedBox(
-                  height: 18,
-                ),
+                const SizedBox(height: 18),
 
                 profileCard(
                   Icons.palette,
-
                   "Style Favorit",
-
                   "Mega Mendung Modern",
                 ),
 
-                const SizedBox(
-                  height: 35,
-                ),
+                const SizedBox(height: 35),
 
                 // ================= LOGOUT BUTTON =================
 
@@ -230,41 +137,25 @@ class ProfileView
                   width: double.infinity,
                   height: 55,
 
-                  child:
-                      ElevatedButton.icon(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
 
-                    style:
-                        ElevatedButton
-                            .styleFrom(
-                      backgroundColor:
-                          Colors.red,
-
-                      foregroundColor:
-                          Colors.white,
-
-                      shape:
-                          RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius
-                                .circular(
-                          18,
-                        ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
                       ),
                     ),
 
-                    onPressed:
-                        controller.logout,
+                    onPressed: controller.logout,
 
-                    icon: const Icon(
-                      Icons.logout,
-                    ),
+                    icon: const Icon(Icons.logout),
 
                     label: const Text(
                       "LOGOUT",
 
                       style: TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -291,21 +182,16 @@ class ProfileView
       padding: const EdgeInsets.all(18),
 
       decoration: BoxDecoration(
-        color:
-            const Color(0xFF1A1F3A),
+        color: const Color(0xFF1A1F3A),
 
-        borderRadius:
-            BorderRadius.circular(
-          22,
-        ),
+        borderRadius: BorderRadius.circular(22),
       ),
 
       child: Row(
         children: [
 
           CircleAvatar(
-            backgroundColor:
-                Colors.amber,
+            backgroundColor: Colors.amber,
 
             child: Icon(
               icon,
@@ -317,8 +203,7 @@ class ProfileView
 
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
 
               children: [
 
@@ -327,11 +212,8 @@ class ProfileView
 
                   style: const TextStyle(
                     color: Colors.white,
-
                     fontSize: 18,
-
-                    fontWeight:
-                        FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
 
@@ -341,8 +223,7 @@ class ProfileView
                   subtitle,
 
                   style: const TextStyle(
-                    color:
-                        Colors.white70,
+                    color: Colors.white70,
                   ),
                 ),
               ],

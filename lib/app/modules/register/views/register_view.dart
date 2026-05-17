@@ -16,10 +16,7 @@ class RegisterView extends GetView<RegisterController> {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color(0xFF0D0F1A),
-                  Color(0xFF1A1F3A),
-                ],
+                colors: [Color(0xFF0D0F1A), Color(0xFF1A1F3A)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -30,10 +27,7 @@ class RegisterView extends GetView<RegisterController> {
           Positioned.fill(
             child: Opacity(
               opacity: 0.05,
-              child: Image.asset(
-                "assets/batik_pattern.png",
-                fit: BoxFit.cover,
-              ),
+              child: Image.asset("assets/batik_pattern.png", fit: BoxFit.cover),
             ),
           ),
 
@@ -45,11 +39,7 @@ class RegisterView extends GetView<RegisterController> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      const Icon(
-                        Icons.layers,
-                        color: Colors.amber,
-                        size: 40,
-                      ),
+                      const Icon(Icons.layers, color: Colors.amber, size: 40),
 
                       const SizedBox(height: 10),
 
@@ -83,6 +73,7 @@ class RegisterView extends GetView<RegisterController> {
                           children: [
                             // FULL NAME
                             TextField(
+                              controller: controller.nameController,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 hintText: "Full Name",
@@ -105,6 +96,7 @@ class RegisterView extends GetView<RegisterController> {
 
                             // EMAIL
                             TextField(
+                              controller: controller.emailController,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 hintText: "Email",
@@ -127,6 +119,7 @@ class RegisterView extends GetView<RegisterController> {
 
                             // PASSWORD
                             TextField(
+                              controller: controller.passwordController,
                               obscureText: true,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
@@ -150,6 +143,7 @@ class RegisterView extends GetView<RegisterController> {
 
                             // CONFIRM PASSWORD
                             TextField(
+                              controller: controller.confirmPasswordController,
                               obscureText: true,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
@@ -171,31 +165,37 @@ class RegisterView extends GetView<RegisterController> {
 
                             const SizedBox(height: 25),
 
-                            // 🔶 REGISTER BUTTON
-                            SizedBox(
-                              width: double.infinity,
-                              height: 50,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.amber,
-                                ),
-                                onPressed: () {
-                                  Get.snackbar(
-                                    "Success",
-                                    "Register berhasil",
-                                    backgroundColor: Colors.white,
-                                    colorText: Colors.black,
-                                  );
-
-                                  // kembali ke login
-                                  Get.offAllNamed(Routes.LOGIN);
-                                },
-                                child: const Text(
-                                  "REGISTER →",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                            // 🔶 REGISTER BUTTON (Merespon Loading dari Backend)
+                            Obx(
+                              () => SizedBox(
+                                width: double.infinity,
+                                height: 50,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.amber,
                                   ),
+                                  onPressed: controller.isLoading.value
+                                      ? null
+                                      : () {
+                                          // Memanggil fungsi register di controller
+                                          controller.register();
+                                        },
+                                  child: controller.isLoading.value
+                                      ? const SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.black,
+                                            strokeWidth: 2,
+                                          ),
+                                        )
+                                      : const Text(
+                                          "REGISTER →",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),

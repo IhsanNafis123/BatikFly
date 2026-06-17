@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
-import '../../../routes/app_pages.dart'; // Sesuaikan dengan path routes kamu
+import '../../../routes/app_pages.dart';
 import '../controllers/fitting_controller.dart';
 
 class FittingView extends GetView<FittingController> {
@@ -33,7 +33,7 @@ class FittingView extends GetView<FittingController> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            // ================= AREA PREVIEW 3D =================
+            // ================= AREA PREVIEW 3D & VTON =================
             Stack(
               children: [
                 Container(
@@ -48,20 +48,37 @@ class FittingView extends GetView<FittingController> {
                     border: Border.all(color: Colors.white10),
                   ),
                   child: Obx(() {
+                    // 1. Jika Sedang Loading
                     if (controller.isLoading.value) {
                       return const Center(
                         child: CircularProgressIndicator(color: accentGold),
                       );
                     }
+
+                    // 2. Jika ada hasil VTON (Try-On 2D di foto user)
+                    if (controller.generatedVisualUrl.value.isNotEmpty) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Image.network(
+                          controller.generatedVisualUrl.value,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      );
+                    }
+
+                    // 3. Jika belum ada model 3D maupun VTON
                     if (controller.generatedModel3DUrl.value.isEmpty) {
                       return const Center(
                         child: Text(
-                          "Klik TAMPILKAN 3D\nuntuk melihat fitting kemeja",
+                          "Pilih motif lalu klik TAMPILKAN 3D\natau COBA DI FOTO SAYA",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.white54),
                         ),
                       );
                     }
+
+                    // 4. Tampilkan Model 3D Kemeja
                     return ModelViewer(
                       src: controller.generatedModel3DUrl.value,
                       alt: "3D Batik Model",
@@ -70,6 +87,11 @@ class FittingView extends GetView<FittingController> {
                       backgroundColor: Colors.transparent,
                       shadowIntensity: 1,
                       exposure: 1,
+                      // BARIS INI YANG DITAMBAHKAN:
+                      // Memicu fungsi inject JS ketika WebView 3D siap
+                      onWebViewCreated: (controllerWebView) {
+                        controller.injectMotifKe3D(controllerWebView);
+                      },
                     );
                   }),
                 ),
@@ -89,7 +111,7 @@ class FittingView extends GetView<FittingController> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
+                          color: Colors.black.withValues(alpha: 0.5),
                           blurRadius: 10,
                         ),
                       ],
@@ -112,6 +134,32 @@ class FittingView extends GetView<FittingController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  
+                  // TOMBOL PILIH MOTIF DARI GALERI
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton.icon(
+                      onPressed: () => controller.pickMotifImage(),
+                      icon: const Icon(Icons.image, color: Colors.white),
+                      label: Obx(() => Text(
+                        controller.selectedMotif.value == null 
+                          ? "Pilih Motif dari Galeri" 
+                          : "Motif Terpilih! (Siap Diproses)",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white10,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 25),
+
                   const Text(
                     "Konfigurasi Ukuran",
                     style: TextStyle(
@@ -139,7 +187,8 @@ class FittingView extends GetView<FittingController> {
 
                   const SizedBox(height: 30),
 
-                  // Tombol Utama
+                  // ================= TOMBOL AKSI =================
+                  // 1. TOMBOL UTAMA TAMPILKAN 3D
                   SizedBox(
                     width: double.infinity,
                     height: 55,
@@ -158,6 +207,33 @@ class FittingView extends GetView<FittingController> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 15),
+
+                  // 2. TOMBOL SUB-FITUR VTON (COBA DI FOTO SAYA)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 55,
+                    child: OutlinedButton.icon(
+                      // Memanggil fungsi baru di controller
+                      onPressed: () => controller.tryOnFotoSendiri(), 
+                      icon: const Icon(Icons.camera_alt, color: accentGold),
+                      label: const Text(
+                        "COBA DI FOTO SAYA",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: accentGold,
+                        side: const BorderSide(color: accentGold, width: 2),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
                     ),
@@ -198,7 +274,7 @@ class FittingView extends GetView<FittingController> {
             BottomNavigationBarItem(icon: Icon(Icons.brush), label: 'Desain'),
             BottomNavigationBarItem(
               icon: Icon(Icons.checkroom),
-              label: 'Fitting 3D',
+              label: 'Fitting',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.photo_library),
@@ -271,7 +347,7 @@ class FittingView extends GetView<FittingController> {
                 const Spacer(),
                 Switch(
                   value: controller.isLongSleeve.value,
-                  activeColor: gold,
+                  activeThumbColor: gold,
                   onChanged: (val) {
                     controller.isLongSleeve.value = val;
                     controller.updateFabricRequirement();
@@ -291,9 +367,9 @@ class FittingView extends GetView<FittingController> {
       () => Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: gold.withOpacity(0.05),
+          color: gold.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: gold.withOpacity(0.3)),
+          border: Border.all(color: gold.withValues(alpha: 0.3)),
         ),
         child: Column(
           children: [

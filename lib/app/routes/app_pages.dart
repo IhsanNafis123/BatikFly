@@ -44,7 +44,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DESAIN,
-      page: () => const DesainView(),
+      page: () => DesainView(),
       binding: DesainBinding(),
     ),
     GetPage(
@@ -59,7 +59,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FITTING,
-      page: () => const FittingView(),
+      page: () =>  FittingView(),
       binding: FittingBinding(),
     ),
     GetPage(

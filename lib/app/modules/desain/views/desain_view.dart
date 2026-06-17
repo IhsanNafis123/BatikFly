@@ -5,8 +5,16 @@ import 'package:get/get.dart';
 import '../../navbar/controllers/navbar_controller.dart';
 import '../../navbar/views/navbar_view.dart';
 
+import '../controllers/desain_controller.dart';
+
 class DesainView extends StatelessWidget {
-  const DesainView({super.key});
+
+  DesainView({super.key});
+
+  final controller =
+      Get.put(
+    DesainController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -17,38 +25,54 @@ class DesainView extends StatelessWidget {
     navbarController.changePage(1);
 
     double width =
-        MediaQuery.of(context).size.width;
+        MediaQuery.of(context)
+            .size
+            .width;
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
+    return AnnotatedRegion<
+        SystemUiOverlayStyle>(
+
+      value:
+          const SystemUiOverlayStyle(
+
+        statusBarColor:
+            Colors.transparent,
+
         statusBarIconBrightness:
             Brightness.light,
       ),
 
       child: Scaffold(
-        backgroundColor:
-            const Color(0xFF0D0F1A),
 
-        // ================= NAVBAR =================
+        backgroundColor:
+            const Color(
+          0xFF0D0F1A,
+        ),
 
         bottomNavigationBar:
             const NavbarView(),
 
         body: SafeArea(
-          child: SingleChildScrollView(
+
+          child:
+              SingleChildScrollView(
+
             padding:
-                const EdgeInsets.all(16),
+                const EdgeInsets
+                    .all(16),
 
             child: Column(
+
               crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  CrossAxisAlignment
+                      .start,
 
               children: [
 
                 // ================= HEADER =================
 
                 Row(
+
                   children: [
 
                     Image.asset(
@@ -56,15 +80,23 @@ class DesainView extends StatelessWidget {
                       width: 35,
                     ),
 
-                    const SizedBox(width: 10),
+                    const SizedBox(
+                      width: 10,
+                    ),
 
                     const Text(
+
                       "BatikFly",
 
-                      style: TextStyle(
+                      style:
+                          TextStyle(
+
                         color:
                             Colors.amber,
-                        fontSize: 22,
+
+                        fontSize:
+                            22,
+
                         fontWeight:
                             FontWeight.bold,
                       ),
@@ -72,412 +104,561 @@ class DesainView extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 25),
-
-                // ================= TITLE =================
+                const SizedBox(
+                  height: 25,
+                ),
 
                 const Text(
+
                   "Weave Your Vision",
 
-                  style: TextStyle(
-                    color: Colors.amber,
+                  style:
+                      TextStyle(
+
+                    color:
+                        Colors.amber,
+
                     fontSize: 34,
+
                     fontWeight:
                         FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(
+                  height: 20,
+                ),
 
-                const Text(
-                  "Describe the patterns of your heritage,\nand let AI reveal the thread.",
+                // ================= MODE =================
 
-                  style: TextStyle(
-                    color: Colors.white54,
-                    height: 1.5,
+                Obx(() => Row(
+
+                  children: [
+
+                    Expanded(
+
+                      child:
+                          RadioListTile(
+
+                        activeColor:
+                            Colors.amber,
+
+                        value:
+                            "prompt",
+
+                        groupValue:
+                            controller
+                                .selectedMode
+                                .value,
+
+                        onChanged:
+                            (v) {
+
+                          controller
+                              .selectedMode
+                              .value = v!;
+                        },
+
+                        title:
+                            const Text(
+
+                          "Prompt",
+
+                          style:
+                              TextStyle(
+                            color:
+                                Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Expanded(
+
+                      child:
+                          RadioListTile(
+
+                        activeColor:
+                            Colors.amber,
+
+                        value:
+                            "hybrid",
+
+                        groupValue:
+                            controller
+                                .selectedMode
+                                .value,
+
+                        onChanged:
+                            (v) {
+
+                          controller
+                              .selectedMode
+                              .value = v!;
+                        },
+
+                        title:
+                            const Text(
+
+                          "Hybrid",
+
+                          style:
+                              TextStyle(
+                            color:
+                                Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+
+                const SizedBox(
+                  height: 15,
+                ),
+
+                Obx(() => Container(
+
+                width: double.infinity,
+
+                padding:
+                    const EdgeInsets.all(
+                  12,
+                ),
+
+                decoration:
+                    BoxDecoration(
+
+                  color:
+                      const Color(
+                    0xFF1A1F3A,
+                  ),
+
+                  borderRadius:
+                      BorderRadius.circular(
+                    15,
                   ),
                 ),
 
-                const SizedBox(height: 25),
+                child: Text(
 
-                // ================= INPUT CARD =================
+                  controller
+                              .selectedMode
+                              .value ==
+                          "prompt"
+
+                      ? "Prompt Only Mode : AI membuat motif batik dari deskripsi pengguna"
+
+                      : "Hybrid Mode : Dataset Batik + Computer Vision + AI",
+
+                  style:
+                      const TextStyle(
+
+                    color:
+                        Colors.white70,
+                  ),
+                ),
+              )),
+              const SizedBox(
+                height: 15,
+              ),
+                // ================= DROPDOWN =================
+
+                Obx(() {
+
+                  if (controller
+                          .selectedMode
+                          .value !=
+                      "hybrid") {
+
+                    return const SizedBox();
+                  }
+
+                  return DropdownButtonFormField(
+
+                    value: controller
+                        .selectedMotif
+                        .value,
+
+                    dropdownColor:
+                        const Color(
+                      0xFF1A1F3A,
+                    ),
+
+                    style:
+                        const TextStyle(
+                      color:
+                          Colors.white,
+                    ),
+
+                    decoration:
+                        InputDecoration(
+
+                      filled: true,
+
+                      fillColor:
+                          const Color(
+                        0xFF1A1F3A,
+                      ),
+
+                      border:
+                          OutlineInputBorder(
+
+                        borderRadius:
+                            BorderRadius.circular(
+                          18,
+                        ),
+                      ),
+                    ),
+
+                    items: controller
+                        .motifList
+                        .map((e) {
+
+                      return DropdownMenuItem(
+
+                        value: e,
+
+                        child: Text(e),
+                      );
+                    }).toList(),
+
+                    onChanged: (v) {
+
+                      controller
+                          .selectedMotif
+                          .value = v!;
+                    },
+                  );
+                }),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                // ================= INPUT =================
 
                 Container(
-                  width: double.infinity,
-                  padding:
-                      const EdgeInsets.all(18),
 
-                  decoration: BoxDecoration(
+                  padding:
+                      const EdgeInsets
+                          .all(15),
+
+                  decoration:
+                      BoxDecoration(
+
                     color:
                         const Color(
                       0xFF1A1F3A,
                     ),
 
                     borderRadius:
-                        BorderRadius.circular(
-                      25,
+                        BorderRadius
+                            .circular(
+                      20,
                     ),
                   ),
 
-                  child: Column(
+                  child: TextField(
+
+                    controller:
+                        controller
+                            .promptController,
+
+                    maxLines: 4,
+
+                    style:
+                        const TextStyle(
+                      color:
+                          Colors.white,
+                    ),
+
+                    decoration:
+                        const InputDecoration(
+
+                      border:
+                          InputBorder
+                              .none,
+
+                      hintText:
+                          "e.g. Modern Mega Mendung blue gold",
+
+                      hintStyle:
+                          TextStyle(
+                        color:
+                            Colors.white54,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                // ================= BUTTON =================
+
+                SizedBox(
+
+                  width:
+                      double.infinity,
+
+                  height: 55,
+
+                  child:
+                      ElevatedButton.icon(
+
+                    style:
+                        ElevatedButton
+                            .styleFrom(
+
+                      backgroundColor:
+                          Colors.amber,
+
+                      foregroundColor:
+                          Colors.black,
+                    ),
+
+                    onPressed: () {
+
+                      controller
+                          .generateMotif();
+                    },
+
+                    icon: Obx(() {
+
+                      if (controller
+                          .isLoading
+                          .value) {
+
+                        return const SizedBox(
+
+                          width: 20,
+                          height: 20,
+
+                          child:
+                              CircularProgressIndicator(
+                            color:
+                                Colors.black,
+                          ),
+                        );
+                      }
+
+                      return const Icon(
+                        Icons.auto_awesome,
+                      );
+                    }),
+
+                    label: Obx(() {
+
+                      return Text(
+
+                        controller
+                                .isLoading
+                                .value
+                            ? "Generating..."
+                            : "GENERATE MOTIF",
+
+                        style:
+                            const TextStyle(
+
+                          fontWeight:
+                              FontWeight.bold,
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 30,
+                ),
+
+                // ================= RESULT =================
+
+                Obx(() {
+
+                  if (controller
+                      .generatedImage
+                      .value
+                      .isEmpty) {
+
+                    return const SizedBox();
+                  }
+
+                  return Column(
+
                     crossAxisAlignment:
                         CrossAxisAlignment
                             .start,
 
                     children: [
 
-                      // ================= TEXTFIELD =================
+                      Column(
+  children: [
 
-                      Container(
-                        padding:
-                            const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 5,
-                        ),
+    ClipRRect(
 
-                        decoration:
-                            BoxDecoration(
-                          color:
-                              const Color(
-                            0xFF0D0F1A,
-                          ),
+      borderRadius:
+          BorderRadius.circular(30),
 
-                          borderRadius:
-                              BorderRadius.circular(
-                            18,
-                          ),
-                        ),
+      child: Image.network(
 
-                        child:
-                            const TextField(
-                          style: TextStyle(
-                            color:
-                                Colors.white,
-                          ),
+        controller
+            .generatedImage
+            .value,
 
-                          maxLines: 4,
+        width:
+            double.infinity,
 
-                          decoration:
-                              InputDecoration(
-                            border:
-                                InputBorder
-                                    .none,
+        height:
+            width * 0.8,
 
-                            hintText:
-                                "e.g. Modern Mega Mendung in blue and gold",
+        fit:
+            BoxFit.cover,
 
-                            hintStyle:
-                                TextStyle(
-                              color:
-                                  Colors.white38,
-                            ),
-                          ),
-                        ),
+        loadingBuilder:
+            (
+              context,
+              child,
+              progress,
+            ) {
+
+          if (progress == null) {
+            return child;
+          }
+
+          return SizedBox(
+
+            height:
+                width * 0.8,
+
+            child:
+                const Center(
+
+              child:
+                  CircularProgressIndicator(
+                color:
+                    Colors.amber,
+              ),
+            ),
+          );
+        },
+      ),
+    ),
+
+    const SizedBox(
+      height: 15,
+    ),
+
+    SizedBox(
+
+      width: double.infinity,
+
+      child: ElevatedButton.icon(
+
+        onPressed: () {
+
+          controller.saveDesign();
+
+        },
+
+        icon: const Icon(
+          Icons.save,
+        ),
+
+        label: const Text(
+          "SAVE MOTIF",
+        ),
+      ),
+    ),
+  ],
+),
+                      
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      infoCard(
+
+                        Icons.menu_book,
+
+                        "Philosophy",
+
+                        controller
+                            .philosophy
+                            .value,
                       ),
 
                       const SizedBox(
                         height: 20,
                       ),
 
-                      // ================= BUTTON GENERATE =================
+                      infoCard(
 
-                      SizedBox(
-                        width:
-                            double.infinity,
-                        height: 55,
+                      Icons.graphic_eq,
 
-                        child:
-                            ElevatedButton
-                                .icon(
-                          style:
-                              ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.amber,
+                      "AI Weave Density",
 
-                            foregroundColor:
-                                Colors.black,
+                      controller
+                          .density
+                          .value,
+                    ),
 
-                            shape:
-                                RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(
-                                18,
-                              ),
-                            ),
-                          ),
+                    const SizedBox(
+                      height: 20,
+                    ),
 
-                          onPressed: () {
+                    Obx(() {
 
-                            Get.snackbar(
-                              "Success",
-                              "Motif berhasil dibuat",
+                      if (controller
+                          .motifName
+                          .value
+                          .isEmpty) {
 
-                              backgroundColor:
-                                  Colors.green,
+                        return const SizedBox();
+                      }
 
-                              colorText:
-                                  Colors
-                                      .white,
-                            );
-                          },
+                      return infoCard(
 
-                          icon:
-                              const Icon(
-                            Icons
-                                .auto_awesome,
-                          ),
+                        Icons.palette,
 
-                          label:
-                              const Text(
-                            "GENERATE MOTIF",
+                        "Base Motif",
 
-                            style:
-                                TextStyle(
-                              fontWeight:
-                                  FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                        controller
+                            .motifName
+                            .value,
+                      );
+                    }),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    Obx(() {
+
+                      if (controller
+                          .modeResult
+                          .value
+                          .isEmpty) {
+
+                        return const SizedBox();
+                      }
+
+                      return infoCard(
+
+                        Icons.settings,
+
+                        "Generation Mode",
+
+                        controller
+                            .modeResult
+                            .value,
+                      );
+                    }),
                     ],
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-
-                // ================= GENERATED TITLE =================
-
-                Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment
-                          .spaceBetween,
-
-                  children: [
-
-                    const Text(
-                      "GENERATED\nMASTERPIECE",
-
-                      style: TextStyle(
-                        color:
-                            Colors.white,
-                        fontSize: 28,
-                        fontWeight:
-                            FontWeight.bold,
-                        height: 1,
-                      ),
-                    ),
-
-                    Container(
-                      padding:
-                          const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 8,
-                      ),
-
-                      decoration:
-                          BoxDecoration(
-                        color:
-                            Colors.amber,
-
-                        borderRadius:
-                            BorderRadius.circular(
-                          20,
-                        ),
-                      ),
-
-                      child: const Text(
-                        "TRADITIONAL\nAURIC",
-
-                        textAlign:
-                            TextAlign.center,
-
-                        style: TextStyle(
-                          color:
-                              Colors.black,
-                          fontSize: 10,
-                          fontWeight:
-                              FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 20),
-
-                // ================= IMAGE =================
-
-                Container(
-                  width: double.infinity,
-                  height: width * 0.8,
-
-                  decoration: BoxDecoration(
-                    color:
-                        const Color(
-                      0xFF1A1F3A,
-                    ),
-
-                    borderRadius:
-                        BorderRadius.circular(
-                      30,
-                    ),
-                  ),
-
-                  child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(
-                      30,
-                    ),
-
-                    child: Image.asset(
-                      "assets/batik_ai.png",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // ================= BUTTONS =================
-
-                Row(
-                  children: [
-
-                    Expanded(
-                      child:
-                          OutlinedButton
-                              .icon(
-                        style:
-                            OutlinedButton.styleFrom(
-                          side:
-                              const BorderSide(
-                            color:
-                                Colors.amber,
-                          ),
-
-                          padding:
-                              const EdgeInsets.symmetric(
-                            vertical: 16,
-                          ),
-
-                          shape:
-                              RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(
-                              16,
-                            ),
-                          ),
-                        ),
-
-                        onPressed: () {},
-
-                        icon:
-                            const Icon(
-                          Icons.refresh,
-                          color:
-                              Colors.amber,
-                        ),
-
-                        label:
-                            const Text(
-                          "REGENERATE",
-
-                          style:
-                              TextStyle(
-                            color:
-                                Colors.amber,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 15),
-
-                    Expanded(
-                      child:
-                          ElevatedButton
-                              .icon(
-                        style:
-                            ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Colors.amber,
-
-                          foregroundColor:
-                              Colors.black,
-
-                          padding:
-                              const EdgeInsets.symmetric(
-                            vertical: 16,
-                          ),
-
-                          shape:
-                              RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(
-                              16,
-                            ),
-                          ),
-                        ),
-
-                        onPressed: () {
-
-                          Get.snackbar(
-                            "Saved",
-                            "Motif disimpan ke galeri",
-
-                            backgroundColor:
-                                Colors.green,
-
-                            colorText:
-                                Colors
-                                    .white,
-                          );
-                        },
-
-                        icon:
-                            const Icon(
-                          Icons.bookmark,
-                        ),
-
-                        label:
-                            const Text(
-                          "SAVE TO\nGALLERY",
-
-                          textAlign:
-                              TextAlign.center,
-
-                          style:
-                              TextStyle(
-                            fontWeight:
-                                FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 30),
-
-                // ================= INFO CARD =================
-
-                infoCard(
-                  Icons.menu_book,
-                  "Philosophy",
-
-                  "The Mega Mendung motif represents the clouds of the heavy sky, symbolizing patience, calm, and the ability to maintain composure during tumultuous times.",
-                ),
-
-                const SizedBox(height: 20),
-
-                infoCard(
-                  Icons.graphic_eq,
-                  "AI Weave Density",
-
-                  "Processing with 95% relative weave layer simulation for maximum cultural authenticity.",
-                ),
-
-                const SizedBox(height: 30),
+                  );
+                }),
               ],
             ),
           ),
@@ -486,7 +667,7 @@ class DesainView extends StatelessWidget {
     );
   }
 
-  // ================= INFO CARD =================
+  // ================= CARD =================
 
   Widget infoCard(
     IconData icon,
@@ -495,13 +676,18 @@ class DesainView extends StatelessWidget {
   ) {
 
     return Container(
+
       width: double.infinity,
+
       padding:
           const EdgeInsets.all(18),
 
       decoration: BoxDecoration(
+
         color:
-            const Color(0xFF1A1F3A),
+            const Color(
+          0xFF1A1F3A,
+        ),
 
         borderRadius:
             BorderRadius.circular(
@@ -510,32 +696,46 @@ class DesainView extends StatelessWidget {
       ),
 
       child: Column(
+
         crossAxisAlignment:
             CrossAxisAlignment.start,
 
         children: [
 
           Row(
+
             children: [
 
               CircleAvatar(
+
                 backgroundColor:
                     Colors.amber,
 
                 child: Icon(
+
                   icon,
-                  color: Colors.black,
+
+                  color:
+                      Colors.black,
                 ),
               ),
 
-              const SizedBox(width: 10),
+              const SizedBox(
+                width: 10,
+              ),
 
               Text(
+
                 title,
 
-                style: const TextStyle(
-                  color: Colors.amber,
+                style:
+                    const TextStyle(
+
+                  color:
+                      Colors.amber,
+
                   fontSize: 18,
+
                   fontWeight:
                       FontWeight.bold,
                 ),
@@ -543,13 +743,20 @@ class DesainView extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 15),
+          const SizedBox(
+            height: 15,
+          ),
 
           Text(
+
             description,
 
-            style: const TextStyle(
-              color: Colors.white70,
+            style:
+                const TextStyle(
+
+              color:
+                  Colors.white70,
+
               height: 1.6,
             ),
           ),

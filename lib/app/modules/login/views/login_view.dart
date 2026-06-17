@@ -150,7 +150,9 @@ class LoginView extends GetView<LoginController> {
                               children: [
                                 Expanded(
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      await controller.loginWithGoogle();
+                                    },
                                     child: const Text("Google"),
                                   ),
                                 ),

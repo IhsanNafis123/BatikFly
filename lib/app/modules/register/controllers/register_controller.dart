@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import '../../../routes/app_pages.dart';
 
 class RegisterController extends GetxController {
   // Text Controllers
@@ -16,7 +17,7 @@ class RegisterController extends GetxController {
 
   // Ganti dengan URL backend Flask kamu
   static const String baseUrl =
-      "http://192.168.1.3:5000";
+      "http://192.168.101.76:5000";
 
   Future<void> register() async {
     try {
@@ -88,7 +89,7 @@ class RegisterController extends GetxController {
 
       final response = await http.post(
         Uri.parse(
-          "$baseUrl/register/request-otp",
+          "$baseUrl/auth/register/request-otp",
         ),
         headers: {
           "Content-Type": "application/json",
@@ -103,20 +104,19 @@ class RegisterController extends GetxController {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
+
         Get.snackbar(
           "Berhasil",
           data["message"] ??
               "Kode OTP telah dikirim ke email",
         );
 
-        // Nanti arahkan ke halaman OTP
-        // Get.toNamed(
-        //   Routes.OTP,
-        //   arguments: {
-        //     "email":
-        //         emailController.text.trim(),
-        //   },
-        // );
+        Get.toNamed(
+          Routes.OTP,
+          arguments: {
+            "email": emailController.text.trim(),
+          },
+        );
 
       } else {
         Get.snackbar(

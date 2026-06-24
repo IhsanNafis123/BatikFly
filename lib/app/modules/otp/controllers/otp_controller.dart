@@ -12,7 +12,7 @@ class OtpController extends GetxController {
   RxBool isLoading = false.obs;
 
   static const String baseUrl =
-      "http://192.168.1.3:5000";
+      "http://192.168.101.76:5000";
   // VPS:
   // static const String baseUrl =
   // "http://76.13.196.121:5000";
@@ -40,7 +40,7 @@ class OtpController extends GetxController {
 
       final response = await http.post(
         Uri.parse(
-          "$baseUrl/register/verify-otp",
+          "$baseUrl/auth/register/verify-otp",
         ),
         headers: {
           "Content-Type": "application/json",

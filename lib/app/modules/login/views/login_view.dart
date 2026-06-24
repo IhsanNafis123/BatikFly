@@ -78,6 +78,7 @@ class LoginView extends GetView<LoginController> {
                           children: [
                             TextField(
                               controller: controller.emailController,
+                              keyboardType: TextInputType.emailAddress,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 hintText: "artisan@batikfly.com",
@@ -96,6 +97,8 @@ class LoginView extends GetView<LoginController> {
                             TextField(
                               controller: controller.passwordController,
                               obscureText: true,
+                              textInputAction: TextInputAction.done,
+                              onSubmitted: (_) => controller.login(),
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 hintText: "••••••••",

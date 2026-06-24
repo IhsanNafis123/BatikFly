@@ -26,7 +26,7 @@ class FittingController extends GetxController {
   // KONFIGURASI BACKEND
   final supabase = Supabase.instance.client;
   // GANTI IP INI SESUAI IP LAPTOP ANDA JIKA BERUBAH
-  final String backendUrl = "http://192.168.57.180:5000/api/fitting"; 
+  final String backendUrl = "http://192.168.56.105:5000/api/fitting"; 
 
   // ================= FUNGSI UTAMA =================
 

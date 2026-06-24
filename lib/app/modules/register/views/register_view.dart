@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../routes/app_pages.dart';
 import '../controllers/register_controller.dart';
 
 class RegisterView extends GetView<RegisterController> {
@@ -83,6 +81,7 @@ class RegisterView extends GetView<RegisterController> {
                           children: [
                             // FULL NAME
                             TextField(
+                              controller: controller.nameController,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 hintText: "Full Name",
@@ -105,6 +104,8 @@ class RegisterView extends GetView<RegisterController> {
 
                             // EMAIL
                             TextField(
+                              controller: controller.emailController,
+                              keyboardType: TextInputType.emailAddress,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 hintText: "Email",
@@ -127,6 +128,7 @@ class RegisterView extends GetView<RegisterController> {
 
                             // PASSWORD
                             TextField(
+                              controller: controller.passwordController,
                               obscureText: true,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
@@ -150,6 +152,7 @@ class RegisterView extends GetView<RegisterController> {
 
                             // CONFIRM PASSWORD
                             TextField(
+                              controller: controller.confirmPasswordController,
                               obscureText: true,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
@@ -172,33 +175,36 @@ class RegisterView extends GetView<RegisterController> {
                             const SizedBox(height: 25),
 
                             // 🔶 REGISTER BUTTON
-                            SizedBox(
-                              width: double.infinity,
-                              height: 50,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.amber,
-                                ),
-                                onPressed: () {
-                                  Get.snackbar(
-                                    "Success",
-                                    "Register berhasil",
-                                    backgroundColor: Colors.white,
-                                    colorText: Colors.black,
-                                  );
-
-                                  // kembali ke login
-                                  Get.offAllNamed(Routes.LOGIN);
-                                },
-                                child: const Text(
-                                  "REGISTER →",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                            Obx(
+                              () => SizedBox(
+                                width: double.infinity,
+                                height: 50,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.amber,
                                   ),
+                                  onPressed: controller.isLoading.value
+                                      ? null
+                                      : controller.register,
+                                  child: controller.isLoading.value
+                                      ? const SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.black,
+                                          ),
+                                        )
+                                      : const Text(
+                                          "REGISTER →",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                 ),
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),

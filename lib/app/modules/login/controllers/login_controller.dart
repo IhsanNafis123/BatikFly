@@ -97,7 +97,7 @@ Future<void> loginWithGoogle() async {
 
     final response = await http.post(
       Uri.parse(
-        'http://192.168.57.180:5000/auth/google',
+        'http://192.168.56.105:5000/auth/google',
       ),
       headers: {
         'Content-Type': 'application/json',

@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 
 class DesignService {
   static const String baseUrl =
-      "http://192.168.57.180:5000";
+      "http://192.168.56.105:5000";
 
   // ================= GENERATE DESIGN =================
 

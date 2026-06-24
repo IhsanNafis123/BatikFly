@@ -13,6 +13,7 @@ abstract class Routes {
   static const GALERI = _Paths.GALERI;
   static const NAVBAR = _Paths.NAVBAR;
   static const SETTING = _Paths.SETTING;
+  static const OTP = _Paths.OTP;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const GALERI = '/galeri';
   static const NAVBAR = '/navbar';
   static const SETTING = '/setting';
+  static const OTP = '/otp';
 }

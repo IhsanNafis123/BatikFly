@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '../../../routes/app_pages.dart';
-import '../../navbar/views/navbar_view.dart';
+import '../../navbar/controllers/navbar_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -10,6 +9,8 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final navbarController =
+      Get.find<NavbarController>();
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -17,7 +18,6 @@ class HomeView extends GetView<HomeController> {
       ),
       child: Scaffold(
         backgroundColor: const Color(0xFF0D0F1A),
-        bottomNavigationBar: const NavbarView(),
 
         // ================= BOTTOM NAVIGATION =================
 
@@ -90,7 +90,7 @@ class HomeView extends GetView<HomeController> {
                         const SizedBox(width: 10),
                         GestureDetector(
                           onTap: () {
-                            Get.toNamed(Routes.PROFILE);
+                            navbarController.changeIndex(4);
                           },
                           child: const CircleAvatar(
                             backgroundColor: Colors.amber,
@@ -161,7 +161,7 @@ class HomeView extends GetView<HomeController> {
                                     Colors.black,
                               ),
                               onPressed: () {
-                                Get.toNamed(Routes.DESAIN);
+                                navbarController.changeIndex(1);
                               },
                               icon: const Icon(
                                 Icons.brush,
@@ -216,7 +216,7 @@ class HomeView extends GetView<HomeController> {
     Expanded(
       child: GestureDetector(
         onTap: () {
-          Get.toNamed(Routes.FITTING);
+          navbarController.changeIndex(2);
         },
         child: featureCard(
           Icons.camera_alt,
@@ -232,7 +232,7 @@ class HomeView extends GetView<HomeController> {
     Expanded(
       child: GestureDetector(
         onTap: () {
-          Get.toNamed(Routes.GALLERY);
+            navbarController.changeIndex(3);
         },
         child: featureCard(
           Icons.brush,

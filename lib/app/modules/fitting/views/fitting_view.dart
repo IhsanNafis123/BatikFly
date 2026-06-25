@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/fitting_controller.dart';
 
 class FittingView extends GetView<FittingController> {
@@ -247,43 +246,6 @@ class FittingView extends GetView<FittingController> {
       ),
 
       // ================= BOTTOM NAVIGATION BAR =================
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          currentIndex: controller.selectedIndex.value,
-          onTap: (index) {
-            controller.selectedIndex.value = index;
-            if (index == 0) {
-              Get.offAllNamed(Routes.HOME);
-            } else if (index == 1) {
-              Get.offAllNamed(Routes.DESAIN);
-            } else if (index == 2) {
-              Get.offAllNamed(Routes.FITTING);
-            } else if (index == 3) {
-              Get.offAllNamed(Routes.GALLERY);
-            } else if (index == 4) {
-              Get.offAllNamed(Routes.PROFILE);
-            }
-          },
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color(0xFF15192F),
-          selectedItemColor: accentGold,
-          unselectedItemColor: Colors.white70,
-          showUnselectedLabels: true,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-            BottomNavigationBarItem(icon: Icon(Icons.brush), label: 'Desain'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.checkroom),
-              label: 'Fitting',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.photo_library),
-              label: 'Galeri',
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
-          ],
-        ),
-      ),
     );
   }
 

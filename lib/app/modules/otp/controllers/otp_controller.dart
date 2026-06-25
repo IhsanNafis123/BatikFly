@@ -12,10 +12,7 @@ class OtpController extends GetxController {
   RxBool isLoading = false.obs;
 
   static const String baseUrl =
-      "http://192.168.101.76:5000";
-  // VPS:
-  // static const String baseUrl =
-  // "http://76.13.196.121:5000";
+      "http://192.168.110.225:5000";
 
   late String email;
 
@@ -23,7 +20,7 @@ class OtpController extends GetxController {
   void onInit() {
     super.onInit();
 
-    email = Get.arguments["email"];
+    email = Get.arguments["email"] ?? "";
   }
 
   Future<void> verifyOtp() async {
@@ -60,23 +57,29 @@ class OtpController extends GetxController {
               "Akun berhasil diverifikasi",
         );
 
+        isLoading.value = false;
+
         Get.offAllNamed(
           Routes.LOGIN,
         );
-      } else {
-        Get.snackbar(
-          "Gagal",
-          data["message"] ??
-              "OTP tidak valid",
-        );
+
+        return;
       }
+
+      Get.snackbar(
+        "Gagal",
+        data["message"] ??
+            "OTP tidak valid",
+      );
     } catch (e) {
       Get.snackbar(
         "Error",
         e.toString(),
       );
     } finally {
-      isLoading.value = false;
+      if (!isClosed) {
+        isLoading.value = false;
+      }
     }
   }
 

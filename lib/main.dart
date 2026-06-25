@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: Routes.LOGIN,
-      initialBinding: NavbarBinding(),
       getPages: AppPages.routes,
     );
   }

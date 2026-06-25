@@ -17,7 +17,7 @@ class RegisterController extends GetxController {
 
   // Ganti dengan URL backend Flask kamu
   static const String baseUrl =
-      "http://192.168.101.76:5000";
+      "http://192.168.110.225:5000";
 
   Future<void> register() async {
     try {

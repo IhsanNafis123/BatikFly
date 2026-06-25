@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
-import '../../navbar/controllers/navbar_controller.dart';
-import '../../navbar/views/navbar_view.dart';
-
 import '../controllers/desain_controller.dart';
 
 class DesainView extends StatelessWidget {
@@ -18,11 +14,6 @@ class DesainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final navbarController =
-        Get.find<NavbarController>();
-
-    navbarController.changePage(1);
 
     double width =
         MediaQuery.of(context)
@@ -48,9 +39,6 @@ class DesainView extends StatelessWidget {
             const Color(
           0xFF0D0F1A,
         ),
-
-        bottomNavigationBar:
-            const NavbarView(),
 
         body: SafeArea(
 

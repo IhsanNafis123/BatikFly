@@ -1,11 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../../../routes/app_pages.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 
+import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
   var isLoading = false.obs;
@@ -13,15 +14,13 @@ class LoginController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  static const String baseUrl =
+      "http://192.168.110.225:5000";
 
   @override
   void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
+    // emailController.dispose();
+    // passwordController.dispose();
     super.onClose();
   }
 
@@ -29,169 +28,218 @@ class LoginController extends GetxController {
   // LOGIN EMAIL & PASSWORD
   // ==========================
   Future<void> login() async {
-  if (emailController.text.trim().isEmpty ||
-      passwordController.text.trim().isEmpty) {
-    Get.snackbar(
-      "Error",
-      "Email dan Password wajib diisi",
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
-    return;
-  }
 
-  try {
-    isLoading.value = true;
-
-    final response = await http.post(
-      Uri.parse(
-        'http://192.168.101.76:5000/auth/login',
-      ),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'email': emailController.text.trim(),
-        'password': passwordController.text,
-      }),
-    );
-
-    final data = jsonDecode(response.body);
-
-    if (response.statusCode == 200) {
-
-      final token = data["token"];
-
-      final box = GetStorage();
-
-      await box.write(
-        "token",
-        token,
-      );
+    if (emailController.text.trim().isEmpty ||
+        passwordController.text.trim().isEmpty) {
 
       Get.snackbar(
-        "Success",
-        data["message"] ??
-            "Login berhasil",
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
-
-      Get.offAllNamed(
-        Routes.HOME,
-      );
-
-    } else {
-
-      Get.snackbar(
-        "Login Gagal",
-        data["message"] ??
-            "Email atau Password salah",
+        "Error",
+        "Email dan Password wajib diisi",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
 
+      return;
     }
 
-  } catch (e) {
+    try {
 
-    Get.snackbar(
-      "Error",
-      e.toString(),
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
+      isLoading.value = true;
 
-  } finally {
+      final response = await http.post(
+        Uri.parse(
+          "$baseUrl/auth/login",
+        ),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "email":
+              emailController.text.trim(),
+          "password":
+              passwordController.text,
+        }),
+      );
 
-    isLoading.value = false;
+      final data = jsonDecode(
+        response.body,
+      );
 
+      if (response.statusCode == 200) {
+
+        final token = data["token"];
+        final user = data["user"];
+
+        final box = GetStorage();
+
+        await box.write(
+          "token",
+          token,
+        );
+
+        await box.write(
+          "user",
+          user,
+        );
+
+        Get.snackbar(
+          "Success",
+          data["message"] ??
+              "Login berhasil",
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+
+        Get.offAllNamed(Routes.NAVBAR);
+
+      } else {
+
+        Get.snackbar(
+          "Login Gagal",
+          data["message"] ??
+              "Email atau Password salah",
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+
+      }
+
+    } catch (e) {
+
+      Get.snackbar(
+        "Error",
+        e.toString(),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+
+    } finally {
+
+      if (!isClosed) {
+        isLoading.value = false;
+      }
+
+    }
   }
-}
 
   // ==========================
   // LOGIN GOOGLE
   // ==========================
-Future<void> loginWithGoogle() async {
-  try {
-    final GoogleSignIn googleSignIn = GoogleSignIn(serverClientId:
-      '921926659146-pt491l9jto816djrvpmd8pfl47tuhjb3.apps.googleusercontent.com',);
+  Future<void> loginWithGoogle() async {
 
-    final GoogleSignInAccount? account =
-        await googleSignIn.signIn();
+    try {
 
-    if (account == null) return;
+      final GoogleSignIn googleSignIn =
+          GoogleSignIn(
+        serverClientId:
+            '921926659146-pt491l9jto816djrvpmd8pfl47tuhjb3.apps.googleusercontent.com',
+      );
 
-    final GoogleSignInAuthentication auth =
-        await account.authentication;
+      final GoogleSignInAccount? account =
+          await googleSignIn.signIn();
 
-    final String? idToken = auth.idToken;
+      if (account == null) return;
 
-    if (idToken == null) {
+      final GoogleSignInAuthentication auth =
+          await account.authentication;
+
+      final String? idToken =
+          auth.idToken;
+
+      if (idToken == null) {
+
+        Get.snackbar(
+          "Error",
+          "Google Token tidak ditemukan",
+        );
+
+        return;
+      }
+
+      final response = await http.post(
+        Uri.parse(
+          "$baseUrl/auth/google",
+        ),
+        headers: {
+          "Content-Type":
+              "application/json",
+        },
+        body: jsonEncode({
+          "id_token": idToken,
+        }),
+      );
+
+      final data = jsonDecode(
+        response.body,
+      );
+
+      if (response.statusCode == 200) {
+
+        final token = data["token"];
+        final user = data["user"];
+
+        final box = GetStorage();
+
+        await box.write(
+          "token",
+          token,
+        );
+
+        await box.write(
+          "user",
+          user,
+        );
+
+        Get.snackbar(
+          "Success",
+          "Login Google berhasil",
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+
+        Get.offAllNamed(
+          Routes.NAVBAR,
+        );
+
+      } else {
+
+        Get.snackbar(
+          "Error",
+          data["message"] ??
+              "Login Google gagal",
+        );
+
+      }
+
+    } catch (e) {
+
       Get.snackbar(
         "Error",
-        "Google Token tidak ditemukan",
+        e.toString(),
       );
-      return;
+
     }
-
-    final response = await http.post(
-      Uri.parse(
-        'http://192.168.101.76:5000/auth/google',
-      ),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'id_token': idToken,
-      }),
-    );
-
-    final data = jsonDecode(response.body);
-
-    if (response.statusCode == 200) {
-      final token = data['token'];
-
-      final box = GetStorage();
-
-      await box.write("token",token,);
-
-      Get.snackbar(
-        "Success",
-        "Login Google berhasil",
-      );
-
-      Get.offAllNamed(Routes.HOME);
-    } else {
-      Get.snackbar(
-        "Error",
-        data['message'],
-      );
-    }
-  } catch (e) {
-    Get.snackbar(
-      "Error",
-      e.toString(),
-    );
   }
-}
 
   // ==========================
   // LOGOUT
   // ==========================
   Future<void> logout() async {
 
-  final box = GetStorage();
+    final box = GetStorage();
 
-  await box.remove("token");
+    await box.remove("token");
+    await box.remove("user");
 
-  Get.offAllNamed(
-    Routes.LOGIN,
-  );
+    Get.offAllNamed(
+      Routes.LOGIN,
+    );
 
-  Get.snackbar(
-    "Success",
-    "Logout berhasil",
-  );
-}
+    Get.snackbar(
+      "Success",
+      "Logout berhasil",
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
+  }
 }

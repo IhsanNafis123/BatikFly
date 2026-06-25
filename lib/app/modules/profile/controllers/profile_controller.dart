@@ -1,117 +1,115 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'dart:convert';
 
-import '../../../routes/app_pages.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileController extends GetxController {
 
-  // ================= BTF043 =================
-  // FOTO PROFIL
+  static const String baseUrl =
+      "http://192.168.110.225:5000";
 
-  RxString profileImage =
-      "assets/profile.jpg".obs;
+  final box = GetStorage();
 
-  // ================= BTF044 =================
-  // NAMA PENGGUNA
+  RxBool isLoading = false.obs;
 
-  RxString username =
-      "Adelia Putri".obs;
+  RxString name = "".obs;
+  RxString email = "".obs;
+  RxString avatar = "".obs;
+  RxString provider = "".obs;
 
-  // ================= BTF045 =================
-  // EMAIL PENGGUNA
+  @override
+  void onInit() {
+    super.onInit();
 
-  RxString email =
-      "adelia@batikfly.com".obs;
-
-  // ================= BTF046 =================
-  // TOTAL DESAIN
-
-  RxInt totalDesign = 24.obs;
-
-  // ================= BTF047 =================
-  // GALERI FAVORIT
-
-  RxInt totalGallery = 12.obs;
-
-  // ================= BTF048 =================
-  // STYLE FAVORIT
-
-  RxString favoriteStyle =
-      "Mega Mendung Modern".obs;
-
-  // ================= BTF050 =================
-  // EDIT PROFIL
-
-  void editProfile() {
-
-    Get.defaultDialog(
-      title: "Edit Profil",
-
-      middleText:
-          "Fitur edit profil berhasil dibuka",
-
-      backgroundColor:
-          const Color(0xFF1A1F3A),
-
-      titleStyle:
-          const TextStyle(
-        color: Colors.white,
-      ),
-
-      middleTextStyle:
-          const TextStyle(
-        color: Colors.white70,
-      ),
-
-      textConfirm: "OK",
-
-      confirmTextColor:
-          Colors.white,
-
-      buttonColor:
-          Colors.blue,
-    );
+    getProfile();
   }
 
-  // ================= BTF049 =================
-  // LOGOUT
+  Future<void> getProfile() async {
 
-  void logout() {
+    try {
 
-    Get.defaultDialog(
-      title: "Logout",
+      isLoading.value = true;
 
-      middleText:
-          "Yakin ingin keluar?",
+      final token =
+          box.read("token");
 
-      backgroundColor:
-          const Color(0xFF1A1F3A),
+      if (token == null) {
 
-      titleStyle:
-          const TextStyle(
-        color: Colors.white,
-      ),
-
-      middleTextStyle:
-          const TextStyle(
-        color: Colors.white70,
-      ),
-
-      textCancel: "Batal",
-      textConfirm: "Logout",
-
-      confirmTextColor:
-          Colors.white,
-
-      buttonColor:
-          Colors.red,
-
-      onConfirm: () {
-
-        Get.offAllNamed(
-          Routes.LOGIN,
+        Get.snackbar(
+          "Error",
+          "Token tidak ditemukan",
         );
-      },
-    );
+
+        return;
+      }
+
+      final response = await http.get(
+
+        Uri.parse(
+          "$baseUrl/auth/profile",
+        ),
+
+        headers: {
+
+          "Authorization":
+              "Bearer $token",
+
+          "Content-Type":
+              "application/json",
+
+        },
+
+      );
+
+      final data =
+          jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+
+        name.value =
+            data["name"] ?? "";
+
+        email.value =
+            data["email"] ?? "";
+
+        avatar.value =
+            data["avatar"] ?? "";
+
+        provider.value =
+            data["provider"] ?? "";
+
+      } else {
+
+        Get.snackbar(
+          "Error",
+          data["message"] ??
+              "Gagal mengambil profile",
+        );
+
+      }
+
+    } catch (e) {
+
+      Get.snackbar(
+        "Error",
+        e.toString(),
+      );
+
+    } finally {
+
+      if (!isClosed) {
+        isLoading.value = false;
+      }
+
+    }
+  }
+
+  Future<void> logout() async {
+
+    await box.remove("token");
+    await box.remove("user");
+
+    Get.offAllNamed("/login");
   }
 }

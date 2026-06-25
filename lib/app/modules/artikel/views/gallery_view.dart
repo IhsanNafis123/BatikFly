@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/gallery_controller.dart';
 import 'gallery_detail_view.dart'; // Import halaman detail
-import '../../navbar/views/navbar_view.dart';
 
 class GalleryView extends GetView<GalleryController> {
   const GalleryView({super.key});
@@ -115,7 +113,6 @@ class GalleryView extends GetView<GalleryController> {
       ),
       
       // ================= BOTTOM NAVBAR =================
-      bottomNavigationBar: const NavbarView(),
     );
   }
 }

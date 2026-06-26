@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../../../routes/app_pages.dart';
+import '../../../config/api_config.dart';
 
 class RegisterController extends GetxController {
   // Text Controllers
@@ -16,8 +17,6 @@ class RegisterController extends GetxController {
   RxBool isLoading = false.obs;
 
   // Ganti dengan URL backend Flask kamu
-  static const String baseUrl =
-      "http://192.168.110.225:5000";
 
   Future<void> register() async {
     try {
@@ -88,9 +87,7 @@ class RegisterController extends GetxController {
       isLoading.value = true;
 
       final response = await http.post(
-        Uri.parse(
-          "$baseUrl/auth/register/request-otp",
-        ),
+       Uri.parse(ApiConfig.registerRequestOtp),
         headers: {
           "Content-Type": "application/json",
         },

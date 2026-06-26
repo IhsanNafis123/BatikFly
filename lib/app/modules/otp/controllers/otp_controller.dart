@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import '../../../config/api_config.dart';
 
 import '../../../routes/app_pages.dart';
 
@@ -10,10 +11,6 @@ class OtpController extends GetxController {
   final otpController = TextEditingController();
 
   RxBool isLoading = false.obs;
-
-  static const String baseUrl =
-      "http://192.168.110.225:5000";
-
   late String email;
 
   @override
@@ -36,9 +33,8 @@ class OtpController extends GetxController {
       isLoading.value = true;
 
       final response = await http.post(
-        Uri.parse(
-          "$baseUrl/auth/register/verify-otp",
-        ),
+        Uri.parse(ApiConfig.verifyOtp),
+        
         headers: {
           "Content-Type": "application/json",
         },

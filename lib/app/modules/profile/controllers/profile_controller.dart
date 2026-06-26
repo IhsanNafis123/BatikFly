@@ -3,11 +3,9 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import '../../../config/api_config.dart';
 
 class ProfileController extends GetxController {
-
-  static const String baseUrl =
-      "http://192.168.110.225:5000";
 
   final box = GetStorage();
 
@@ -46,9 +44,7 @@ class ProfileController extends GetxController {
 
       final response = await http.get(
 
-        Uri.parse(
-          "$baseUrl/auth/profile",
-        ),
+        Uri.parse(ApiConfig.profile),
 
         headers: {
 

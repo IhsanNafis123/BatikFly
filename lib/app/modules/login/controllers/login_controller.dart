@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import '../../../config/api_config.dart';
 
 import '../../../routes/app_pages.dart';
 
@@ -14,8 +15,6 @@ class LoginController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  static const String baseUrl =
-      "http://192.168.110.225:5000";
 
   @override
   void onClose() {
@@ -47,9 +46,8 @@ class LoginController extends GetxController {
       isLoading.value = true;
 
       final response = await http.post(
-        Uri.parse(
-          "$baseUrl/auth/login",
-        ),
+        Uri.parse(ApiConfig.login),
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -157,9 +155,8 @@ class LoginController extends GetxController {
       }
 
       final response = await http.post(
-        Uri.parse(
-          "$baseUrl/auth/google",
-        ),
+       Uri.parse(ApiConfig.googleLogin),
+       
         headers: {
           "Content-Type":
               "application/json",

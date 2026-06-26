@@ -4,300 +4,168 @@ import 'package:get/get.dart';
 import '../../../data/services/desain_service.dart';
 
 class DesainController extends GetxController {
+  // ===========================
+  // TEXT CONTROLLER
+  // ===========================
 
-  // ================= TEXTFIELD =================
-
-  TextEditingController promptController =
+  final TextEditingController promptController =
       TextEditingController();
 
-  // ================= STATE =================
+  // ===========================
+  // STATE
+  // ===========================
 
-  var selectedMode =
-      "prompt".obs;
+  RxString selectedMode = "prompt".obs;
 
-  var selectedMotif =
-      "Mega Mendung".obs;
+  RxString selectedMotif = "".obs;
 
-  var isLoading = false.obs;
+  RxBool isLoading = false.obs;
 
-  var generatedImage =
-      "".obs;
+  // ===========================
+  // RESULT
+  // ===========================
 
-  var philosophy =
-      "".obs;
+  RxString generatedImage = "".obs;
 
-  var density =
-      "".obs;
+  RxString philosophy = "".obs;
 
-  // ================= RESULT EXTRA =================
+  RxString density = "".obs;
 
-  var motifName =
-      "".obs;
+  RxString motifName = "".obs;
 
-  var modeResult =
-      "".obs;
+  RxString modeResult = "".obs;
 
-  // ================= DATA =================
+  // ===========================
+  // DATA
+  // ===========================
 
-  var motifList =
-      <String>[].obs;
-
-  // ================= INIT =================
+  RxList<String> motifList = <String>[].obs;
 
   @override
   void onInit() {
-
-    loadMotifs();
-
     super.onInit();
+    loadMotifs();
   }
 
+  // ===========================
+  // LOAD MOTIF
+  // ===========================
+
   Future<void> loadMotifs() async {
-
     try {
+      final motifs = await DesignService.getMotifs();
 
-      final motifs =
-          await DesignService
-              .getMotifs();
-
-      motifList.value =
-          motifs;
+      motifList.assignAll(motifs);
 
       if (motifs.isNotEmpty) {
-
-        selectedMotif.value =
-            motifs.first;
+        selectedMotif.value = motifs.first;
       }
-
-      print(
-        "Motif Loaded : $motifList",
-      );
-
     } catch (e) {
-
-      print(
-        "Load Motif Error : $e",
+      Get.snackbar(
+        "Error",
+        e.toString(),
       );
     }
   }
 
-  // ================= GENERATE =================
+  // ===========================
+  // GENERATE DESIGN
+  // ===========================
 
-  Future<void> generateMotif()
-      async {
+  Future<void> generateMotif() async {
+    if (promptController.text.trim().isEmpty) {
+      Get.snackbar(
+        "Warning",
+        "Prompt tidak boleh kosong",
+      );
+      return;
+    }
 
     try {
-
-      if (promptController
-          .text
-          .trim()
-          .isEmpty) {
-
-        Get.snackbar(
-
-          "Warning",
-
-          "Prompt tidak boleh kosong",
-
-          backgroundColor:
-              Colors.orange,
-
-          colorText:
-              Colors.white,
-        );
-
-        return;
-      }
-
       isLoading.value = true;
 
-      final result =
-          await DesignService
-              .generateDesign(
-
-        mode:
-            selectedMode.value,
-
-        prompt:
-            promptController.text,
-
-        baseMotif:
-            selectedMotif.value,
+      final result = await DesignService.generateDesign(
+        mode: selectedMode.value,
+        prompt: promptController.text.trim(),
+        baseMotif: selectedMotif.value,
       );
 
-      print(
-        "RESULT => $result",
-      );
+      if (result["success"] == true) {
+        final data = result["data"];
 
-      if (result["success"]) {
+        generatedImage.value = data["image"] ?? "";
 
-        generatedImage.value =
-            result["data"]["image"] ?? "";
+        philosophy.value = data["philosophy"] ?? "";
 
-        philosophy.value =
-            result["data"]["philosophy"] ?? "";
+        density.value = data["density"] ?? "";
 
-        density.value =
-            result["data"]["density"] ?? "";
+        modeResult.value = data["mode"] ?? selectedMode.value;
 
-        modeResult.value =
-            result["data"]["mode"] ?? "";
-
-        if (selectedMode.value == "hybrid") {
-
-          motifName.value =
-              result["data"]["motif"] ?? "";
-
-        } else {
-
-          motifName.value = "";
-        }
-
-        print(
-          "IMAGE : ${generatedImage.value}",
-        );
-
-        print(
-          "MODE : ${modeResult.value}",
-        );
-
-        print(
-          "MOTIF : ${motifName.value}",
-        );
+        motifName.value = data["motif"] ?? selectedMotif.value;
 
         Get.snackbar(
-
           "Success",
-
           "Motif berhasil dibuat",
-
-          backgroundColor:
-              Colors.green,
-
-          colorText:
-              Colors.white,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
         );
-
       } else {
-
         Get.snackbar(
-
           "Error",
-
-          result["message"] ??
-              "Terjadi kesalahan",
-
-          backgroundColor:
-              Colors.red,
-
-          colorText:
-              Colors.white,
+          result["message"] ?? "Generate gagal",
         );
       }
-
     } catch (e) {
-
-      print(
-        "Generate Error : $e",
-      );
-
       Get.snackbar(
-
         "Error",
-
         e.toString(),
-
-        backgroundColor:
-            Colors.red,
-
-        colorText:
-            Colors.white,
       );
-
     } finally {
-
       isLoading.value = false;
     }
   }
 
-Future<void> saveDesign()
-async {
+  // ===========================
+  // SAVE DESIGN
+  // ===========================
 
-  try {
-
-    final result =
-        await DesignService.saveDesign(
-
-      mode:
-          modeResult.value,
-
-      motifName:
-          motifName.value,
-
-      prompt:
-          promptController.text,
-
-      imageUrl:
-          generatedImage.value,
-
-      philosophy:
-          philosophy.value,
-
-      density:
-          density.value,
-    );
-
-    if (result["success"]) {
-
-      Get.snackbar(
-
-        "Success",
-
-        "Design berhasil disimpan",
-
-        backgroundColor:
-            Colors.green,
-
-        colorText:
-            Colors.white,
+  Future<void> saveDesign() async {
+    try {
+      final result = await DesignService.saveDesign(
+        mode: modeResult.value,
+        motifName: motifName.value,
+        prompt: promptController.text.trim(),
+        imageUrl: generatedImage.value,
+        philosophy: philosophy.value,
+        density: density.value,
       );
 
-    } else {
-
+      if (result["success"] == true) {
+        Get.snackbar(
+          "Success",
+          "Design berhasil disimpan",
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      } else {
+        Get.snackbar(
+          "Error",
+          result["message"] ?? "Gagal menyimpan design",
+        );
+      }
+    } catch (e) {
       Get.snackbar(
-
         "Error",
-
-        result["message"],
-
-        backgroundColor:
-            Colors.red,
-
-        colorText:
-            Colors.white,
+        e.toString(),
       );
     }
-
-  } catch (e) {
-
-    Get.snackbar(
-
-      "Error",
-
-      e.toString(),
-
-      backgroundColor:
-          Colors.red,
-
-      colorText:
-          Colors.white,
-    );
   }
-}
-  // ================= RESET =================
+
+  // ===========================
+  // RESET
+  // ===========================
 
   void resetForm() {
-
     promptController.clear();
 
     generatedImage.value = "";
@@ -309,15 +177,17 @@ async {
     motifName.value = "";
 
     modeResult.value = "";
-  }
 
-  // ================= DISPOSE =================
+    selectedMode.value = "prompt";
+
+    if (motifList.isNotEmpty) {
+      selectedMotif.value = motifList.first;
+    }
+  }
 
   @override
   void onClose() {
-
     promptController.dispose();
-
     super.onClose();
   }
 }

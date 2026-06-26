@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
-
+import '../../config/api_config.dart';
 class DesignService {
-  static const String baseUrl =
-      "http://192.168.56.105:5000";
+
 
   // ================= GENERATE DESIGN =================
 
@@ -21,8 +20,8 @@ class DesignService {
         await http.post(
 
       Uri.parse(
-        "$baseUrl/design/generate",
-      ),
+      ApiConfig.generateDesign,
+    ),
 
       headers: {
         "Content-Type":
@@ -55,7 +54,7 @@ class DesignService {
         await http.get(
 
       Uri.parse(
-        "$baseUrl/motifs",
+        ApiConfig.getMotifs,
       ),
     );
 
@@ -99,7 +98,7 @@ class DesignService {
         await http.post(
 
       Uri.parse(
-        "$baseUrl/design/save",
+        ApiConfig.saveDesign,
       ),
 
       headers: {

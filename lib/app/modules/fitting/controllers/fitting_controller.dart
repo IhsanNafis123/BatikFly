@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../config/api_config.dart';
 
 class FittingController extends GetxController {
   // ================= STATE VARIABEL =================
@@ -26,7 +27,6 @@ class FittingController extends GetxController {
   // KONFIGURASI BACKEND
   final supabase = Supabase.instance.client;
   // GANTI IP INI SESUAI IP LAPTOP ANDA JIKA BERUBAH
-  final String backendUrl = "http://192.168.56.105:5000/api/fitting"; 
 
   // ================= FUNGSI UTAMA =================
 
@@ -84,7 +84,7 @@ class FittingController extends GetxController {
 
       // 2. Simpan Data ke Database via Flask
       final response = await http.post(
-        Uri.parse('$backendUrl/save'),
+        Uri.parse(ApiConfig.fittingSave),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "user_id": supabase.auth.currentUser?.id ?? "anonymous",
@@ -128,7 +128,7 @@ class FittingController extends GetxController {
 
       // 2. Panggil API AI (Fal.ai IDM-VTON) di Flask
       final response = await http.post(
-        Uri.parse('$backendUrl/generate-vton'),
+        Uri.parse(ApiConfig.fittingVton),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "user_photo_url": photoUrl,

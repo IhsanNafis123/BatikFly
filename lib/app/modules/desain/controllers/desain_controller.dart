@@ -73,6 +73,8 @@ class DesainController extends GetxController {
   // ===========================
 
   Future<void> generateMotif() async {
+    // Validasi Prompt
+
     if (promptController.text.trim().isEmpty) {
       Get.snackbar(
         "Warning",
@@ -81,27 +83,55 @@ class DesainController extends GetxController {
       return;
     }
 
+    // Validasi Hybrid
+
+    if (selectedMode.value == "hybrid" &&
+        selectedMotif.value.isEmpty) {
+      Get.snackbar(
+        "Warning",
+        "Silakan pilih motif batik terlebih dahulu.",
+      );
+      return;
+    }
+
     try {
       isLoading.value = true;
+
+      // Reset hasil lama
+      generatedImage.value = "";
+      philosophy.value = "";
+      density.value = "";
+      motifName.value = "";
+      modeResult.value = "";
 
       final result = await DesignService.generateDesign(
         mode: selectedMode.value,
         prompt: promptController.text.trim(),
-        baseMotif: selectedMotif.value,
+        baseMotif: selectedMode.value == "hybrid"
+            ? selectedMotif.value
+            : null,
       );
 
       if (result["success"] == true) {
         final data = result["data"];
 
-        generatedImage.value = data["image"] ?? "";
+        generatedImage.value =
+            data["image"] ?? "";
 
-        philosophy.value = data["philosophy"] ?? "";
+        philosophy.value =
+            data["philosophy"] ?? "";
 
-        density.value = data["density"] ?? "";
+        density.value =
+            data["density"] ?? "";
 
-        modeResult.value = data["mode"] ?? selectedMode.value;
+        modeResult.value =
+            data["mode"] ?? selectedMode.value;
 
-        motifName.value = data["motif"] ?? selectedMotif.value;
+        if (selectedMode.value == "hybrid") {
+          motifName.value =
+              data["motif"] ??
+              selectedMotif.value;
+        }
 
         Get.snackbar(
           "Success",
@@ -112,7 +142,8 @@ class DesainController extends GetxController {
       } else {
         Get.snackbar(
           "Error",
-          result["message"] ?? "Generate gagal",
+          result["message"] ??
+              "Generate desain gagal",
         );
       }
     } catch (e) {
@@ -130,14 +161,35 @@ class DesainController extends GetxController {
   // ===========================
 
   Future<void> saveDesign() async {
+    if (generatedImage.value.isEmpty) {
+      Get.snackbar(
+        "Warning",
+        "Silakan generate desain terlebih dahulu.",
+      );
+      return;
+    }
+
     try {
-      final result = await DesignService.saveDesign(
+      final result =
+          await DesignService.saveDesign(
         mode: modeResult.value,
-        motifName: motifName.value,
-        prompt: promptController.text.trim(),
-        imageUrl: generatedImage.value,
-        philosophy: philosophy.value,
-        density: density.value,
+
+        motifName:
+            selectedMode.value == "hybrid"
+                ? motifName.value
+                : "",
+
+        prompt:
+            promptController.text.trim(),
+
+        imageUrl:
+            generatedImage.value,
+
+        philosophy:
+            philosophy.value,
+
+        density:
+            density.value,
       );
 
       if (result["success"] == true) {
@@ -150,7 +202,8 @@ class DesainController extends GetxController {
       } else {
         Get.snackbar(
           "Error",
-          result["message"] ?? "Gagal menyimpan design",
+          result["message"] ??
+              "Gagal menyimpan design",
         );
       }
     } catch (e) {
@@ -181,7 +234,8 @@ class DesainController extends GetxController {
     selectedMode.value = "prompt";
 
     if (motifList.isNotEmpty) {
-      selectedMotif.value = motifList.first;
+      selectedMotif.value =
+          motifList.first;
     }
   }
 

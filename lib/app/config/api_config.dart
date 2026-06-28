@@ -37,6 +37,12 @@ class ApiConfig {
 
   static const String saveDesign =
       "$baseUrl/design/save";
+  
+  static const updateProfile =
+    "$baseUrl/auth/profile";
+
+  static const activityLogs =
+    "$baseUrl/activity/logs";
 
   // ===========================
   // FITTING

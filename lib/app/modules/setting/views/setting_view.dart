@@ -3,113 +3,70 @@ import 'package:get/get.dart';
 
 import '../controllers/setting_controller.dart';
 
-class SettingView
-    extends GetView<SettingController> {
-
+class SettingView extends GetView<SettingController> {
   const SettingView({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor:
-          const Color(0xFF0D0F1A),
+      backgroundColor: const Color(0xffF5F6FA),
 
       appBar: AppBar(
-        backgroundColor:
-            Colors.transparent,
-
+        title: const Text("Pengaturan"),
+        centerTitle: true,
         elevation: 0,
-
-        iconTheme:
-            const IconThemeData(
-          color: Colors.amber,
-        ),
-
-        title: const Text(
-          "Settings",
-
-          style: TextStyle(
-            color: Colors.amber,
-            fontWeight:
-                FontWeight.bold,
-          ),
-        ),
+        backgroundColor: const Color(0xff8B4513),
+        foregroundColor: Colors.white,
       ),
 
       body: Padding(
-        padding:
-            const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
 
         child: Column(
           children: [
 
             Container(
-              padding:
-                  const EdgeInsets.all(18),
-
               decoration: BoxDecoration(
-                color:
-                    const Color(
-                  0xFF1A1F3A,
-                ),
-
-                borderRadius:
-                    BorderRadius.circular(
-                  20,
-                ),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  )
+                ],
               ),
 
-              child: Obx(
-                () => Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment
-                          .spaceBetween,
-
-                  children: [
-
-                    const Row(
-                      children: [
-
-                        Icon(
-                          Icons.dark_mode,
-                          color:
-                              Colors.amber,
-                        ),
-
-                        SizedBox(
-                          width: 12,
-                        ),
-
-                        Text(
-                          "Dark Mode",
-
-                          style:
-                              TextStyle(
-                            color:
-                                Colors
-                                    .white,
-
-                            fontSize:
-                                18,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    Switch(
-                      value: controller.isDarkMode.value,
-
-                      activeColor:
-                          Colors.amber,
-
-                      onChanged:
-                          controller.changeTheme,
-                    ),
-                  ],
+              child: ListTile(
+                leading: const CircleAvatar(
+                  backgroundColor: Color(0xffFDECEC),
+                  child: Icon(
+                    Icons.logout_rounded,
+                    color: Colors.red,
+                  ),
                 ),
+
+                title: const Text(
+                  "Keluar",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                subtitle: const Text(
+                  "Keluar dari akun BatikFly",
+                ),
+
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                ),
+
+                onTap: controller.showLogoutDialog,
               ),
             ),
+
           ],
         ),
       ),

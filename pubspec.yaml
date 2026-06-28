@@ -38,6 +38,7 @@ dependencies:
   supabase_flutter: ^2.14.1
   google_sign_in: ^6.2.1
   get_storage: ^2.1.1
+  intl: ^0.20.2
 
 dev_dependencies:
 
@@ -63,6 +64,8 @@ flutter:
   assets:
     - assets/logo.jpeg
     - assets/scene.glb
+    - assets/logo dalam.png
+    - assets/logo depan.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

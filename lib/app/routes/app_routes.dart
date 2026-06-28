@@ -14,6 +14,10 @@ abstract class Routes {
   static const NAVBAR = _Paths.NAVBAR;
   static const SETTING = _Paths.SETTING;
   static const OTP = _Paths.OTP;
+  static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
+  static const LOG_ACTIVITY = _Paths.LOG_ACTIVITY;
+  static const ABOUT_APP = _Paths.ABOUT_APP;
+  static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
 }
 
 abstract class _Paths {
@@ -29,4 +33,8 @@ abstract class _Paths {
   static const NAVBAR = '/navbar';
   static const SETTING = '/setting';
   static const OTP = '/otp';
+  static const EDIT_PROFILE = '/edit-profile';
+  static const LOG_ACTIVITY = '/log-activity';
+  static const ABOUT_APP = '/about-app';
+  static const PRIVACY_POLICY = '/privacy-policy';
 }

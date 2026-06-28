@@ -15,7 +15,6 @@ class LoginController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-
   @override
   void onClose() {
     // emailController.dispose();
@@ -27,10 +26,8 @@ class LoginController extends GetxController {
   // LOGIN EMAIL & PASSWORD
   // ==========================
   Future<void> login() async {
-
     if (emailController.text.trim().isEmpty ||
         passwordController.text.trim().isEmpty) {
-
       Get.snackbar(
         "Error",
         "Email dan Password wajib diisi",
@@ -42,81 +39,58 @@ class LoginController extends GetxController {
     }
 
     try {
-
       isLoading.value = true;
 
       final response = await http.post(
         Uri.parse(ApiConfig.login),
 
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          "email":
-              emailController.text.trim(),
-          "password":
-              passwordController.text,
+          "email": emailController.text.trim(),
+          "password": passwordController.text,
         }),
       );
 
-      final data = jsonDecode(
-        response.body,
-      );
+      final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-
         final token = data["token"];
         final user = data["user"];
 
         final box = GetStorage();
 
-        await box.write(
-          "token",
-          token,
-        );
+        await box.write("token", token);
 
-        await box.write(
-          "user",
-          user,
-        );
+        await box.write("user", user);
+        await box.write("user_id", user["id"]);
 
         Get.snackbar(
           "Success",
-          data["message"] ??
-              "Login berhasil",
+          data["message"] ?? "Login berhasil",
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
 
         Get.offAllNamed(Routes.NAVBAR);
-
       } else {
-
         Get.snackbar(
           "Login Gagal",
-          data["message"] ??
-              "Email atau Password salah",
+          data["message"] ?? "Email atau Password salah",
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
-
       }
-
     } catch (e) {
-
       Get.snackbar(
         "Error",
         e.toString(),
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
-
     } finally {
-
       if (!isClosed) {
         isLoading.value = false;
       }
-
     }
   }
 
@@ -124,68 +98,45 @@ class LoginController extends GetxController {
   // LOGIN GOOGLE
   // ==========================
   Future<void> loginWithGoogle() async {
-
     try {
-
-      final GoogleSignIn googleSignIn =
-          GoogleSignIn(
+      final GoogleSignIn googleSignIn = GoogleSignIn(
         serverClientId:
             '921926659146-pt491l9jto816djrvpmd8pfl47tuhjb3.apps.googleusercontent.com',
       );
 
-      final GoogleSignInAccount? account =
-          await googleSignIn.signIn();
+      final GoogleSignInAccount? account = await googleSignIn.signIn();
 
       if (account == null) return;
 
-      final GoogleSignInAuthentication auth =
-          await account.authentication;
+      final GoogleSignInAuthentication auth = await account.authentication;
 
-      final String? idToken =
-          auth.idToken;
+      final String? idToken = auth.idToken;
 
       if (idToken == null) {
-
-        Get.snackbar(
-          "Error",
-          "Google Token tidak ditemukan",
-        );
+        Get.snackbar("Error", "Google Token tidak ditemukan");
 
         return;
       }
 
       final response = await http.post(
-       Uri.parse(ApiConfig.googleLogin),
-       
-        headers: {
-          "Content-Type":
-              "application/json",
-        },
-        body: jsonEncode({
-          "id_token": idToken,
-        }),
+        Uri.parse(ApiConfig.googleLogin),
+
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"id_token": idToken}),
       );
 
-      final data = jsonDecode(
-        response.body,
-      );
+      final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-
         final token = data["token"];
         final user = data["user"];
 
         final box = GetStorage();
 
-        await box.write(
-          "token",
-          token,
-        );
+        await box.write("token", token);
 
-        await box.write(
-          "user",
-          user,
-        );
+        await box.write("user", user);
+        await box.write("user_id", user["id"]);
 
         Get.snackbar(
           "Success",
@@ -194,27 +145,12 @@ class LoginController extends GetxController {
           colorText: Colors.white,
         );
 
-        Get.offAllNamed(
-          Routes.NAVBAR,
-        );
-
+        Get.offAllNamed(Routes.NAVBAR);
       } else {
-
-        Get.snackbar(
-          "Error",
-          data["message"] ??
-              "Login Google gagal",
-        );
-
+        Get.snackbar("Error", data["message"] ?? "Login Google gagal");
       }
-
     } catch (e) {
-
-      Get.snackbar(
-        "Error",
-        e.toString(),
-      );
-
+      Get.snackbar("Error", e.toString());
     }
   }
 
@@ -222,15 +158,13 @@ class LoginController extends GetxController {
   // LOGOUT
   // ==========================
   Future<void> logout() async {
-
     final box = GetStorage();
 
     await box.remove("token");
     await box.remove("user");
+    await box.remove("user_id");
 
-    Get.offAllNamed(
-      Routes.LOGIN,
-    );
+    Get.offAllNamed(Routes.LOGIN);
 
     Get.snackbar(
       "Success",

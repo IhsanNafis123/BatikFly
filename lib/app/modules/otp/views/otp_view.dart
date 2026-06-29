@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../controllers/otp_controller.dart';
 
 class OtpView extends GetView<OtpController> {
@@ -11,15 +10,11 @@ class OtpView extends GetView<OtpController> {
     return Scaffold(
       body: Stack(
         children: [
-
           // Background
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color(0xFF0D0F1A),
-                  Color(0xFF1A1F3A),
-                ],
+                colors: [Color(0xFF0D0F1A), Color(0xFF1A1F3A)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -30,10 +25,7 @@ class OtpView extends GetView<OtpController> {
           Positioned.fill(
             child: Opacity(
               opacity: 0.05,
-              child: Image.asset(
-                "assets/batik_pattern.png",
-                fit: BoxFit.cover,
-              ),
+              child: Image.asset("assets/batik_pattern.png", fit: BoxFit.cover),
             ),
           ),
 
@@ -44,105 +36,102 @@ class OtpView extends GetView<OtpController> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-
-                      const Icon(
-                        Icons.verified_user,
-                        color: Colors.amber,
-                        size: 50,
+                      // ===== LOGO APLIKASI =====
+                      Image.asset(
+                        "assets/logo dalam.png",
+                        height: 200,
+                        fit: BoxFit.contain,
                       ),
 
-                      const SizedBox(height: 10),
-
+                      const SizedBox(height: 20),
                       const Text(
                         "Verifikasi OTP",
                         style: TextStyle(
-                          color: Colors.amber,
-                          fontSize: 28,
+                          fontSize: 26,
                           fontWeight: FontWeight.bold,
+                          color: Colors.amber,
                         ),
                       ),
-
                       const SizedBox(height: 10),
-
                       Text(
-                        "Masukkan kode OTP yang telah dikirim ke email\n${controller.email}",
+                        "Masukkan 6 digit kode yang telah dikirim ke ${controller.email}",
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white70,
-                        ),
+                        style: const TextStyle(color: Colors.white70),
                       ),
-
                       const SizedBox(height: 30),
 
+                      // ===== FORM OTP =====
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.05),
+                          color: Colors.white.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white12),
                         ),
                         child: Column(
                           children: [
-
                             TextField(
                               controller: controller.otpController,
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 22,
+                                fontSize: 24,
                                 letterSpacing: 8,
+                                fontWeight: FontWeight.bold,
                               ),
+                              maxLength: 6,
                               decoration: InputDecoration(
-                                hintText: "123456",
+                                counterText: "",
+                                hintText: "000000",
                                 hintStyle: const TextStyle(
-                                  color: Colors.white38,
+                                  color: Colors.white24,
                                 ),
-                                prefixIcon: const Icon(
-                                  Icons.lock_clock,
-                                  color: Colors.amber,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.white24,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                filled: true,
-                                fillColor: Colors.black26,
-                                border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(12),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.amber,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                             ),
-
                             const SizedBox(height: 25),
-
-                            Obx(
-                              () => SizedBox(
-                                width: double.infinity,
-                                height: 50,
-                                child: ElevatedButton(
+                            SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: Obx(
+                                () => ElevatedButton(
+                                  onPressed: controller.isLoading.value
+                                      ? null
+                                      : () => controller.verifyOtp(),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.amber,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
-                                  onPressed:
-                                      controller.isLoading.value
-                                          ? null
-                                          : controller.verifyOtp,
-                                  child:
-                                      controller.isLoading.value
-                                          ? const SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child:
-                                                  CircularProgressIndicator(
-                                                strokeWidth: 2,
-                                                color: Colors.black,
-                                              ),
-                                            )
-                                          : const Text(
-                                              "VERIFIKASI",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight:
-                                                    FontWeight.bold,
-                                              ),
-                                            ),
+                                  child: controller.isLoading.value
+                                      ? const SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.black,
+                                          ),
+                                        )
+                                      : const Text(
+                                          "VERIFIKASI",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),
@@ -158,9 +147,7 @@ class OtpView extends GetView<OtpController> {
                         },
                         child: const Text(
                           "Kembali",
-                          style: TextStyle(
-                            color: Colors.amber,
-                          ),
+                          style: TextStyle(color: Colors.amber),
                         ),
                       ),
                     ],

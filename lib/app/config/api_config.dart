@@ -44,5 +44,5 @@ class ApiConfig {
   // GALLERY
   // ===========================
 
-  static const String gallery = "$baseUrl/gallery";
+  static const String getGallery = "$baseUrl/api/gallery";
 }

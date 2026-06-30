@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'app/routes/app_pages.dart';
-import 'app/modules/navbar/bindings/navbar_binding.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
 
 void main() async {
   // 1. Wajib ditambahkan agar proses async (seperti inisialisasi database) bisa berjalan sebelum UI muncul
@@ -18,9 +16,9 @@ void main() async {
   );
 
   await GetStorage.init();
-  
-  await initializeDateFormatting('id_ID',null,);
-  
+
+  await initializeDateFormatting('id_ID', null);
+
   runApp(const MyApp());
 }
 

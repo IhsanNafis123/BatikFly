@@ -45,4 +45,11 @@ class ApiConfig {
   // ===========================
 
   static const String getGallery = "$baseUrl/api/gallery";
+
+  // ===========================
+  // HOME / BERANDA
+  // ===========================
+  static const String getHomeTrends = "$baseUrl/api/home-trends";
+
+  static const String getAnalytics = "$baseUrl/api/analytics";
 }

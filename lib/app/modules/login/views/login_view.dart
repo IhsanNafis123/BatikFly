@@ -15,10 +15,7 @@ class LoginView extends GetView<LoginController> {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color(0xFF0D0F1A),
-                  Color(0xFF1A1F3A),
-                ],
+                colors: [Color(0xFF0D0F1A), Color(0xFF1A1F3A)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -29,10 +26,7 @@ class LoginView extends GetView<LoginController> {
           Positioned.fill(
             child: Opacity(
               opacity: 0.05,
-              child: Image.asset(
-                "assets/batik_pattern.png",
-                fit: BoxFit.cover,
-              ),
+              child: Image.asset("assets/batik_pattern.png", fit: BoxFit.cover),
             ),
           ),
 
@@ -44,129 +38,117 @@ class LoginView extends GetView<LoginController> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      const Icon(Icons.layers,
-                          color: Colors.amber, size: 40),
-                      const SizedBox(height: 10),
+                      // ===== LOGO APLIKASI =====
+                      Image.asset(
+                        "assets/logo dalam.png",
+                        height:
+                            200, // Silakan ubah jika logo kurang besar/kecil
+                        fit: BoxFit.contain,
+                      ),
 
+                      const SizedBox(height: 20),
                       const Text(
-                        "BatikFly",
+                        "Welcome Back",
                         style: TextStyle(
-                          color: Colors.amber,
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
+                          color: Colors.amber,
                         ),
                       ),
-
-                      const SizedBox(height: 10),
-
-                      const Text(
-                        "Selamat Datang,BatikFly. \nTemukan gaya kreasi dan inovasi anda.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white70),
-                      ),
-
                       const SizedBox(height: 30),
 
-                      // 🔳 Form Card
+                      // ===== FORM LOGIN MANUAL =====
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.05),
+                          color: Colors.white.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white12),
                         ),
                         child: Column(
                           children: [
                             TextField(
                               controller: controller.emailController,
-                              keyboardType: TextInputType.emailAddress,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
-                                hintText: "artisan@batikfly.com",
-                                hintStyle:
-                                    const TextStyle(color: Colors.white38),
-                                filled: true,
-                                fillColor: Colors.black26,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                labelText: "Email",
+                                labelStyle: const TextStyle(
+                                  color: Colors.white54,
+                                ),
+                                prefixIcon: const Icon(
+                                  Icons.email,
+                                  color: Colors.amber,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.white24,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.amber,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                             ),
-
                             const SizedBox(height: 15),
-
                             TextField(
                               controller: controller.passwordController,
                               obscureText: true,
-                              textInputAction: TextInputAction.done,
-                              onSubmitted: (_) => controller.login(),
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
-                                hintText: "••••••••",
-                                hintStyle:
-                                    const TextStyle(color: Colors.white38),
-                                filled: true,
-                                fillColor: Colors.black26,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                labelText: "Password",
+                                labelStyle: const TextStyle(
+                                  color: Colors.white54,
                                 ),
-                                suffix: const Text(
-                                  "Forgot?",
-                                  style: TextStyle(color: Colors.amber),
+                                prefixIcon: const Icon(
+                                  Icons.lock,
+                                  color: Colors.amber,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.white24,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.amber,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                             ),
-
-                            const SizedBox(height: 20),
-
-                            // 🔶 LOGIN BUTTON (Reactive)
-                            Obx(() => SizedBox(
-                                  width: double.infinity,
-                                  height: 50,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.amber,
+                            const SizedBox(height: 25),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: Obx(
+                                () => ElevatedButton(
+                                  onPressed: controller.isLoading.value
+                                      ? null
+                                      : () => controller.login(),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.amber,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    onPressed: controller.isLoading.value
-                                        ? null
-                                        : controller.login,
-                                    child: controller.isLoading.value
-                                        ? const CircularProgressIndicator(
-                                            color: Colors.black)
-                                        : const Text(
-                                            "LOGIN →",
-                                            style: TextStyle(
-                                                color: Colors.black),
+                                  ),
+                                  child: controller.isLoading.value
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.black,
+                                        )
+                                      : const Text(
+                                          "LOGIN",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                  ),
-                                )),
-
-                            const SizedBox(height: 20),
-
-                            const Text(
-                              "OR CONTINUE WITH",
-                              style: TextStyle(color: Colors.white54),
-                            ),
-
-                            const SizedBox(height: 15),
-
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: OutlinedButton(
-                                    onPressed: () async {
-                                      await controller.loginWithGoogle();
-                                    },
-                                    child: const Text("Google"),
-                                  ),
+                                        ),
                                 ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: OutlinedButton(
-                                    onPressed: () {},
-                                    child: const Text("Apple"),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
@@ -174,6 +156,33 @@ class LoginView extends GetView<LoginController> {
 
                       const SizedBox(height: 20),
 
+                      // ===== TOMBOL LOGIN GOOGLE =====
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: OutlinedButton.icon(
+                          onPressed: () => controller.loginWithGoogle(),
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Colors.white24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.g_mobiledata,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          label: const Text(
+                            "Continue with Google",
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // ===== PINDAH KE REGISTER =====
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

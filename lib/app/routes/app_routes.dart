@@ -18,6 +18,8 @@ abstract class Routes {
   static const LOG_ACTIVITY = _Paths.LOG_ACTIVITY;
   static const ABOUT_APP = _Paths.ABOUT_APP;
   static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
+  static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
+  static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
 }
 
 abstract class _Paths {
@@ -37,4 +39,6 @@ abstract class _Paths {
   static const LOG_ACTIVITY = '/log-activity';
   static const ABOUT_APP = '/about-app';
   static const PRIVACY_POLICY = '/privacy-policy';
+  static const FORGOT_PASSWORD = '/forgot-password';
+  static const RESET_PASSWORD = '/reset-password';
 }

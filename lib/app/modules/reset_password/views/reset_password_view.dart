@@ -1,36 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/login_controller.dart';
-import '../../../routes/app_pages.dart';
 
-class LoginView extends GetView<LoginController> {
-  const LoginView({super.key});
+import '../controllers/reset_password_controller.dart';
+
+class ResetPasswordView extends GetView<ResetPasswordController> {
+  const ResetPasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // 🌌 Background Gradient
+          // Background Gradient
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF0D0F1A), Color(0xFF1A1F3A)],
+                colors: [
+                  Color(0xFF0D0F1A),
+                  Color(0xFF1A1F3A),
+                ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
             ),
           ),
 
-          // 🧵 Batik Pattern
+          // Batik Pattern
           Positioned.fill(
             child: Opacity(
               opacity: 0.05,
-              child: Image.asset("assets/batik_pattern.png", fit: BoxFit.cover),
+              child: Image.asset(
+                "assets/batik_pattern.png",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
 
-          // 🔥 Content
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -38,68 +43,125 @@ class LoginView extends GetView<LoginController> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      // ===== LOGO APLIKASI =====
                       Image.asset(
                         "assets/logo dalam.png",
-                        height:
-                            200, // Silakan ubah jika logo kurang besar/kecil
-                        fit: BoxFit.contain,
+                        height: 180,
                       ),
 
                       const SizedBox(height: 20),
+
                       const Text(
-                        "Login",
+                        "Reset Password",
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.amber,
                         ),
                       ),
+
+                      const SizedBox(height: 10),
+
+                      const Text(
+                        "Masukkan token reset yang dikirim ke email Anda, kemudian buat password baru.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white70,
+                        ),
+                      ),
+
                       const SizedBox(height: 30),
 
-                      // ===== FORM LOGIN MANUAL =====
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.white12),
+                          border: Border.all(
+                            color: Colors.white12,
+                          ),
                         ),
                         child: Column(
                           children: [
+                            // Token Reset
                             TextField(
-                              controller: controller.emailController,
-                              style: const TextStyle(color: Colors.white),
+                              controller: controller.tokenController,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
                               decoration: InputDecoration(
-                                labelText: "Email",
+                                labelText: "Token Reset",
                                 labelStyle: const TextStyle(
                                   color: Colors.white54,
                                 ),
                                 prefixIcon: const Icon(
-                                  Icons.email,
+                                  Icons.vpn_key,
                                   color: Colors.amber,
                                 ),
                                 enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(10),
                                   borderSide: const BorderSide(
                                     color: Colors.white24,
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(10),
                                   borderSide: const BorderSide(
                                     color: Colors.amber,
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                             ),
+
                             const SizedBox(height: 15),
+
+                            // Password Baru
                             TextField(
-                              controller: controller.passwordController,
+                              controller:
+                                  controller.passwordController,
                               obscureText: true,
-                              style: const TextStyle(color: Colors.white),
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
                               decoration: InputDecoration(
-                                labelText: "Password",
+                                labelText: "Password Baru",
+                                labelStyle: const TextStyle(
+                                  color: Colors.white54,
+                                ),
+                                prefixIcon: const Icon(
+                                  Icons.lock_outline,
+                                  color: Colors.amber,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white24,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.amber,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 15),
+
+                            // Konfirmasi Password
+                            TextField(
+                              controller: controller
+                                  .confirmPasswordController,
+                              obscureText: true,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Konfirmasi Password",
                                 labelStyle: const TextStyle(
                                   color: Colors.white54,
                                 ),
@@ -108,67 +170,52 @@ class LoginView extends GetView<LoginController> {
                                   color: Colors.amber,
                                 ),
                                 enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(10),
                                   borderSide: const BorderSide(
                                     color: Colors.white24,
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(10),
                                   borderSide: const BorderSide(
                                     color: Colors.amber,
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                onPressed: () {
-                                  Get.toNamed(Routes.FORGOT_PASSWORD);
-                                },
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: Size.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                child: const Text(
-                                  "Lupa Password?",
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
+
+                            const SizedBox(height: 25),
+
                             SizedBox(
                               width: double.infinity,
                               height: 50,
                               child: Obx(
                                 () => ElevatedButton(
-                                  onPressed: controller.isLoading.value
+                                  onPressed: controller
+                                          .isLoading.value
                                       ? null
-                                      : ()  {
-                                        print("Tombol LOGIN ditekan");
-                                        controller.login();
-                                      },
+                                      : controller.resetPassword,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.amber,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius:
+                                          BorderRadius.circular(
+                                              10),
                                     ),
                                   ),
-                                  child: controller.isLoading.value
+                                  child: controller
+                                          .isLoading.value
                                       ? const CircularProgressIndicator(
                                           color: Colors.black,
                                         )
                                       : const Text(
-                                          "LOGIN",
+                                          "SIMPAN PASSWORD",
                                           style: TextStyle(
                                             color: Colors.black,
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight:
+                                                FontWeight.bold,
                                           ),
                                         ),
                                 ),
@@ -180,53 +227,16 @@ class LoginView extends GetView<LoginController> {
 
                       const SizedBox(height: 20),
 
-                      // ===== TOMBOL LOGIN GOOGLE =====
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: OutlinedButton.icon(
-                          onPressed: () => controller.loginWithGoogle(),
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.white24),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          icon: const Icon(
-                            Icons.g_mobiledata,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                          label: const Text(
-                            "Continue with Google",
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                      TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const Text(
+                          "Kembali ke Login",
+                          style: TextStyle(
+                            color: Colors.amber,
                           ),
                         ),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // ===== PINDAH KE REGISTER =====
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Don't have an account? ",
-                            style: TextStyle(color: Colors.white70),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.toNamed(Routes.REGISTER);
-                            },
-                            child: const Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: Colors.amber,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),

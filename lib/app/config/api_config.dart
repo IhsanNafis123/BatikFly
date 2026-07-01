@@ -3,7 +3,7 @@ class ApiConfig {
   // GANTI SESUAI IP BACKEND
   // ===========================
 
-  static const String baseUrl = "http://192.168.101.76:5000";
+  static const String baseUrl = "http://192.168.1.5:5000";
 
   // ===========================
   // AUTH
@@ -17,6 +17,8 @@ class ApiConfig {
 
   static const String verifyOtp = "$baseUrl/auth/register/verify-otp";
 
+  static const String forgotPassword = "$baseUrl/auth/forgot-password";
+  static const String resetPassword = "$baseUrl/auth/reset-password";
   static const String profile = "$baseUrl/auth/profile";
 
   // ===========================

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/Forgot_Password/bindings/forgot_password_binding.dart';
+import '../modules/Forgot_Password/views/forgot_password_view.dart';
 import '../modules/about_app/bindings/about_app_binding.dart';
 import '../modules/about_app/views/about_app_view.dart';
 import '../modules/artikel/bindings/gallery_binding.dart';
@@ -26,6 +28,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/reset_password/bindings/reset_password_binding.dart';
+import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/setting/bindings/setting_binding.dart';
 import '../modules/setting/views/setting_view.dart';
 
@@ -106,6 +110,16 @@ class AppPages {
       name: _Paths.PRIVACY_POLICY,
       page: () => const PrivacyPolicyView(),
       binding: PrivacyPolicyBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORGOT_PASSWORD,
+      page: () => const ForgotPasswordView(),
+      binding: ForgotPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESET_PASSWORD,
+      page: () => const ResetPasswordView(),
+      binding: ResetPasswordBinding(),
     ),
   ];
 }

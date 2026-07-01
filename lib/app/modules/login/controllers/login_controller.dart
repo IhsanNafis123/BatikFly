@@ -16,6 +16,12 @@ class LoginController extends GetxController {
   final passwordController = TextEditingController();
 
   @override
+  void onInit() {
+    super.onInit();
+    print("===== LoginController dibuat =====");
+  }
+
+  @override
   void onClose() {
     // emailController.dispose();
     // passwordController.dispose();
@@ -26,6 +32,14 @@ class LoginController extends GetxController {
   // LOGIN EMAIL & PASSWORD
   // ==========================
   Future<void> login() async {
+      print("====================================");
+      print("LOGIN DITEKAN");
+      print("EMAIL    : '${emailController.text}'");
+      print("PASSWORD : '${passwordController.text}'");
+      print("EMAIL EMPTY    : ${emailController.text.trim().isEmpty}");
+      print("PASSWORD EMPTY : ${passwordController.text.trim().isEmpty}");
+      print("====================================");
+      
     if (emailController.text.trim().isEmpty ||
         passwordController.text.trim().isEmpty) {
       Get.snackbar(
@@ -153,6 +167,61 @@ class LoginController extends GetxController {
       Get.snackbar("Error", e.toString());
     }
   }
+
+  Future<void> forgotPassword(String email) async {
+  if (email.trim().isEmpty) {
+    Get.snackbar(
+      "Error",
+      "Masukkan email terlebih dahulu",
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
+    return;
+  }
+
+  try {
+    isLoading.value = true;
+
+    final response = await http.post(
+      Uri.parse(ApiConfig.forgotPassword),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
+        "email": email.trim(),
+      }),
+    );
+
+    final data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      Get.snackbar(
+        "Berhasil",
+        data["message"],
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } else {
+      Get.snackbar(
+        "Gagal",
+        data["message"],
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  } catch (e) {
+    Get.snackbar(
+      "Error",
+      e.toString(),
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
+  } finally {
+    if (!isClosed) {
+      isLoading.value = false;
+    }
+  }
+}
 
   // ==========================
   // LOGOUT

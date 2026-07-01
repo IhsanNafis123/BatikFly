@@ -8,51 +8,33 @@ class DesainView extends StatelessWidget {
 
   final controller = Get.put(DesainController());
 
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+@override
+Widget build(BuildContext context) {
+  double width = MediaQuery.of(context).size.width;
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-
-        statusBarIconBrightness: Brightness.light,
+  return Scaffold(
+    backgroundColor: const Color(0xFF0F1021),
+    appBar: AppBar(
+      title: const Text(
+        "DESAIN",
+        style: TextStyle(
+          color: Colors.amber,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          letterSpacing: 1.2,
+        ),
       ),
-
-      child: Scaffold(
-        backgroundColor: const Color(0xFF0D0F1A),
-
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-
-              children: [
-                // ================= HEADER =================
-                Row(
-                  children: [
-                    Image.asset("assets/logo dalam.png", width: 35),
-
-                    const SizedBox(width: 10),
-
-                    const Text(
-                      "BatikFly",
-
-                      style: TextStyle(
-                        color: Colors.amber,
-
-                        fontSize: 22,
-
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 25),
-
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      centerTitle: true,
+    ),
+    body: SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
                 const Text(
                   "Weave Your Vision",
 
@@ -365,9 +347,8 @@ class DesainView extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
+    }
 
   // ================= CARD =================
 

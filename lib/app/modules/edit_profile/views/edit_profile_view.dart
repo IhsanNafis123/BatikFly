@@ -12,21 +12,21 @@ class EditProfileView extends GetView<EditProfileController> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        backgroundColor: const Color(0xffF5F6FA),
+        backgroundColor: const Color(0xFF0F1021),
 
         appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-
           title: const Text(
-            "Edit Profile",
+            "EDIT PROFILE",
             style: TextStyle(
+              color: Colors.amber,
               fontWeight: FontWeight.bold,
+              fontSize: 18,
+              letterSpacing: 1.2,
             ),
           ),
-
           centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
 
         body: Obx(() {
@@ -59,7 +59,7 @@ class EditProfileView extends GetView<EditProfileController> {
 
                         radius: 60,
 
-                        backgroundColor: Colors.white,
+                        backgroundColor: const Color(0xFF15192F),
 
                         backgroundImage:
 
@@ -85,7 +85,7 @@ class EditProfileView extends GetView<EditProfileController> {
                                 ? const Icon(
                                     Icons.person,
                                     size: 70,
-                                    color: Colors.brown,
+                                    color: Colors.amber,
                                   )
 
                                 : null,
@@ -111,7 +111,7 @@ class EditProfileView extends GetView<EditProfileController> {
 
                             decoration: const BoxDecoration(
 
-                              color: Color(0xff8B4513),
+                              color: Colors.amber,
 
                               shape: BoxShape.circle,
 
@@ -142,13 +142,18 @@ class EditProfileView extends GetView<EditProfileController> {
                 const SizedBox(height: 15),
 
                 TextButton.icon(
-
                   onPressed: controller.pickImage,
-
-                  icon: const Icon(Icons.photo),
-
-                  label: const Text("Ganti Foto"),
-
+                  icon: const Icon(
+                    Icons.photo,
+                    color: Colors.amber,
+                  ),
+                  label: const Text(
+                    "Ganti Foto",
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
 
                 const SizedBox(height: 25),
@@ -276,9 +281,8 @@ class EditProfileView extends GetView<EditProfileController> {
 
                     style: ElevatedButton.styleFrom(
 
-                      backgroundColor: const Color(0xff8B4513),
-
-                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.amber,
+                      foregroundColor: Colors.black,
 
                       shape: RoundedRectangleBorder(
 
@@ -289,20 +293,19 @@ class EditProfileView extends GetView<EditProfileController> {
 
                     ),
 
-                    icon: const Icon(Icons.save),
+                    icon: const Icon(
+                      Icons.save,
+                      color: Colors.black,
+                    ),
 
                     label: const Text(
-
-                      "Simpan Perubahan",
-
+                      "SIMPAN PERUBAHAN",
                       style: TextStyle(
-
-                        fontSize: 16,
-
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
-
+                        letterSpacing: 1,
+                        fontSize: 16,
                       ),
-
                     ),
 
                   ),
@@ -330,7 +333,8 @@ class EditProfileView extends GetView<EditProfileController> {
     child: Text(
       title,
       style: const TextStyle(
-        fontSize: 20,
+        color: Colors.white,
+        fontSize: 15,
         fontWeight: FontWeight.bold,
       ),
     ),
@@ -352,6 +356,7 @@ Widget _buildTextField({
       Text(
         label,
         style: const TextStyle(
+          color: Colors.white,
           fontWeight: FontWeight.w600,
           fontSize: 15,
         ),
@@ -361,18 +366,25 @@ Widget _buildTextField({
 
       TextField(
         controller: controller,
+        style: const TextStyle(color: Colors.white,),
         obscureText: obscureText,
         keyboardType: keyboardType,
 
         decoration: InputDecoration(
 
-          hintText: hint,
+          hintStyle: const TextStyle(
+            color: Colors.white38,
+          ),
 
-          prefixIcon: Icon(icon),
+          prefixIcon: Icon(
+            icon,
+            color: Colors.amber,
+          ),
 
           filled: true,
 
-          fillColor: Colors.white,
+          fillColor: const Color(0xFF15192F),
+
 
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
@@ -387,7 +399,7 @@ Widget _buildTextField({
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: const BorderSide(
-              color: Color(0xff8B4513),
+              color: Colors.amber,
               width: 2,
             ),
           ),
@@ -416,6 +428,7 @@ Widget _buildReadOnlyField({
       Text(
         label,
         style: const TextStyle(
+          color: Colors.white,
           fontWeight: FontWeight.w600,
           fontSize: 15,
         ),
@@ -424,7 +437,9 @@ Widget _buildReadOnlyField({
       const SizedBox(height: 8),
 
       TextField(
-
+        style: const TextStyle(
+          color: Colors.white70,
+        ),
         controller: TextEditingController(
           text: value,
         ),
@@ -433,11 +448,14 @@ Widget _buildReadOnlyField({
 
         decoration: InputDecoration(
 
-          prefixIcon: Icon(icon),
+          prefixIcon: Icon(
+            icon,
+            color: Colors.amber,
+          ),
 
           filled: true,
 
-          fillColor: Colors.grey.shade100,
+          fillColor: const Color(0xFF15192F),
 
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),

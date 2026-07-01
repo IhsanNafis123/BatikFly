@@ -4,7 +4,7 @@
     <application
         android:label="Batik Fly"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon"
+        android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"> <meta-data
             android:name="io.flutter.embedding.android.EnableImpeller"
             android:value="false" />

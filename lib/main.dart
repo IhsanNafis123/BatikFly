@@ -29,9 +29,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 1. Buka kotak penyimpanan GetStorage
+    final box = GetStorage();
+
+    // 2. Baca token dari penyimpanan
+    String? token = box.read('token');
+
+    // 3. Jika token ada isinya (tidak null dan tidak kosong), berarti user sudah login
+    bool isLoggedIn = token != null && token.isNotEmpty;
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.LOGIN,
+      
+      // 4. Arahkan ke NAVBAR jika sudah login, jika belum arahkan ke LOGIN
+      initialRoute: isLoggedIn ? Routes.NAVBAR : Routes.LOGIN, 
+      
       getPages: AppPages.routes,
     );
   }

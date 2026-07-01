@@ -48,7 +48,7 @@ class LoginView extends GetView<LoginController> {
 
                       const SizedBox(height: 20),
                       const Text(
-                        "Welcome Back",
+                        "Login",
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
